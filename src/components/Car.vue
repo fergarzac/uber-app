@@ -6,14 +6,14 @@
     img-top
     tag="article"
     style="max-width: 20rem;"
-    border-variant="info"
+    border-variant="dark"
     class="mb-2"
   >
     <b-card-text>
       {{descripcion}}
     </b-card-text>
 
-    <b-button variant="outline-info" :to="{ name: 'perfil-car', params: { carId: id } }">Ver</b-button>
+    <b-button variant="outline-dark" :to="{ name: 'perfil-car', params: { carId: id } }">Ver</b-button>
   </b-card>
 </template>
 <script>

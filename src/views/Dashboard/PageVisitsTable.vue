@@ -3,10 +3,10 @@
     <div class="card-header border-0">
       <div class="row align-items-center">
         <div class="col">
-          <h3 class="mb-0">Page visits</h3>
+          <h3 class="mb-0">Choferes</h3>
         </div>
         <div class="col text-right">
-          <a href="#!" class="btn btn-sm btn-primary">See all</a>
+          <a href="#!" class="btn btn-sm btn-primary">Ver todo</a>
         </div>
       </div>
     </div>
@@ -15,10 +15,10 @@
       <base-table thead-classes="thead-light"
                   :data="tableData">
         <template slot="columns">
-          <th>Page name</th>
-          <th>Visitors</th>
-          <th>Unique users</th>
-          <th>Bounce rate</th>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Telefono</th>
+          <th>No. Licencia</th>
         </template>
 
         <template slot-scope="{row}">
@@ -32,9 +32,6 @@
             {{row.unique}}
           </td>
           <td>
-            <i class="fas fa-arrow-up text-success mr-3"
-               :class="row.bounceRateDirection === 'up' ? 'text-success': 'text-danger'">
-            </i>
             {{row.bounceRate}}
           </td>
         </template>
@@ -51,39 +48,34 @@
       return {
         tableData: [
           {
-            page: '/argon/',
-            visitors: '4,569',
-            unique: '340',
-            bounceRate: '46,53%',
-            bounceRateDirection: 'up'
+            page: 'Fernando',
+            visitors: 'Mexicali',
+            unique: '6131118512',
+            bounceRate: '34234R'
           },
           {
-            page: '/argon/index.html',
-            visitors: '3,985',
-            unique: '319',
-            bounceRate: '46,53%',
-            bounceRateDirection: 'down'
+            page: 'Armando',
+            visitors: 'Mexicali',
+            unique: '6131118512',
+            bounceRate: '34234R'
           },
           {
-            page: '/argon/charts.html',
-            visitors: '3,513',
-            unique: '294',
-            bounceRate: '36,49%',
-            bounceRateDirection: 'down'
+            page: 'Jorge',
+            visitors: 'Ensenada',
+            unique: '6131118512',
+            bounceRate: '34234R'
           },
           {
-            page: '/argon/tables.html',
-            visitors: '2,050',
-            unique: '147',
-            bounceRate: '50,87%',
-            bounceRateDirection: 'up'
+            page: 'Jose',
+            visitors: 'Tijuana',
+            unique: '6131118512',
+            bounceRate: '34234R'
           },
           {
-            page: '/argon/profile.html',
-            visitors: '1,795',
-            unique: '190',
-            bounceRate: '46,53%',
-            bounceRateDirection: 'down'
+            page: 'Miguel',
+            visitors: 'Constitucion',
+            unique: '6131118512',
+            bounceRate: '34234R'
           }
         ]
       }
