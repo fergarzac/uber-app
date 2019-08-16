@@ -49,6 +49,11 @@ export default new Router({
           path: '/perfil-car',
           name: 'perfil-car',
           component: () => import(/* webpackChunkName: "demo" */ './views/CarPerfil.vue')
+        },
+        {
+          path: '/choferes',
+          name: 'choferes',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Choferes.vue')
         }
       ]
     },

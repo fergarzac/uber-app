@@ -4,58 +4,8 @@
             <!-- Mask -->
             <span class="mask bg-gradient-dark opacity-8"></span>
             <!-- Header container -->
-            <div class="container-fluid d-flex align-items-center">
+            <div class="container-fluid d-flex">
                 <div>
-                    <b-carousel
-                        id="carousel-1"
-                        v-model="slide"
-                        :interval="4000"
-                        controls
-                        indicators
-                        background="#ababab"
-                        img-width="1024"
-                        img-height="480"
-                        style="text-shadow: 1px 1px 2px #333;"
-                        @sliding-start="true"
-                        @sliding-end="false"
-                        >
-                        <!-- Text slides with image -->
-                        <b-carousel-slide
-                            caption="First slide"
-                            text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                            img-src="https://picsum.photos/1024/480/?image=52"
-                        ></b-carousel-slide>
-
-                        <!-- Slides with custom text -->
-                        <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-                            <h1>Hello world!</h1>
-                        </b-carousel-slide>
-
-                        <!-- Slides with image only -->
-                        <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
-
-                        <!-- Slides with img slot -->
-                        <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-                        <b-carousel-slide>
-                            <img
-                            slot="img"
-                            class="d-block img-fluid w-100"
-                            width="1024"
-                            height="480"
-                            src="https://picsum.photos/1024/480/?image=55"
-                            alt="image slot"
-                            >
-                        </b-carousel-slide>
-
-                        <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-                        <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
-                            <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
-                            a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
-                            </p>
-                        </b-carousel-slide>
-                        </b-carousel>
-
                 </div>
             </div>
         </base-header>
@@ -64,77 +14,113 @@
             <div class="row">
                 <div class="col-xl-12 order-xl-1">
                     <card shadow type="secondary">
-                        <div slot="header" class="bg-white border-0">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h3 class="mb-0">Documentos</h3>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-6">
-                                <stats-card title="Total traffic"
-                                            type="gradient-red"
-                                            sub-title="350,897"
-                                            icon="ni ni-active-40"
-                                            class="mb-4 mb-xl-0"
-                                >
-
-                                    <template slot="footer">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </template>
-                                </stats-card>
-                            </div>
-                            <div class="col-xl-3 col-lg-6">
-                                <stats-card title="Total traffic"
-                                            type="gradient-orange"
-                                            sub-title="2,356"
-                                            icon="ni ni-chart-pie-35"
-                                            class="mb-4 mb-xl-0"
-                                >
-
-                                    <template slot="footer">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 12.18%</span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </template>
-                                </stats-card>
-                            </div>
-                            <div class="col-xl-3 col-lg-6">
-                                <stats-card title="Sales"
-                                            type="gradient-green"
-                                            sub-title="924"
-                                            icon="ni ni-money-coins"
-                                            class="mb-4 mb-xl-0"
-                                >
-
-                                    <template slot="footer">
-                                        <span class="text-danger mr-2"><i class="fa fa-arrow-down"></i> 5.72%</span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </template>
-                                </stats-card>
-
-                            </div>
-                            <div class="col-xl-3 col-lg-6">
-                                <stats-card title="Performance"
-                                            type="gradient-info"
-                                            sub-title="49,65%"
-                                            icon="ni ni-chart-bar-32"
-                                            class="mb-4 mb-xl-0"
-                                >
-
-                                    <template slot="footer">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 54.8%</span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </template>
-                                </stats-card>
-                            </div>
-                        </div>
+                        <b-button class="m-1" @click="changeStatus(1)" >Documentos</b-button>
+                        <b-button class="m-1" @click="changeStatus(2)">Balance</b-button>
+                        <b-button class="m-1" @click="changeStatus(3)">Fotografias</b-button>
+                        <b-button class="m-1" @click="changeStatus(4)">Revision</b-button>
+                        <b-button class="m-1" @click="changeStatus(5)">Chofer</b-button>
+                        <b-collapse v-model="showDocumentos" id="collapse-documentos">
+                            <h1>Documentos</h1>
+                            <card shadow type="secondary">
+                                 <b-row>
+                                    <b-col cols="12" md="auto">
+                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=54" alt="Image 1"></b-img>
+                                    </b-col>
+                                    <b-col cols="12" md="auto">
+                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=58" alt="Image 2"></b-img>
+                                    </b-col>
+                                    <b-col cols="12" md="auto">
+                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=59" alt="Image 3"></b-img>
+                                    </b-col>
+                                </b-row>
+                            </card>
+                        </b-collapse>
+                        <b-collapse v-model="showBalance" id="collapse-balance">
+                            <h1>Balance</h1>
+                        </b-collapse>
+                        <b-collapse v-model="showFotografias" id="collapse-fotografias">
+                            <h1>Fotografias</h1>
+                            <card shadow type="secondary">
+                                 <b-row>
+                                    <b-col cols="12" md="auto">
+                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=54" alt="Image 1"></b-img>
+                                    </b-col>
+                                    <b-col cols="12" md="auto">
+                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=58" alt="Image 2"></b-img>
+                                    </b-col>
+                                    <b-col cols="12" md="auto">
+                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=59" alt="Image 3"></b-img>
+                                    </b-col>
+                                </b-row>
+                            </card>
+                        </b-collapse>
+                        <b-collapse v-model="showRevision" id="collapse-revision">
+                            <h1>Revision</h1>
+                            <card shadow type="secondary">
+                                <b-row>
+                                    <b-col cols="12" md="3">
+                                        <b-form-input v-model="semana" type="week"></b-form-input>
+                                    </b-col>
+                                    <b-col cols="12" md="2">
+                                        <b-button style="width:100%" variant="outline-dark">Buscar</b-button>
+                                    </b-col>
+                                </b-row>
+                            </card>
+                        </b-collapse>
+                        <b-collapse v-model="showChofer" id="collapse-chofer">
+                            <h1>Chofer</h1>
+                        </b-collapse>
                     </card>
                 </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-xl-5 order-xl-2 ">
+                    <card shadow type="secondary">
+                        Fotografia
+                        <b-row>
+                            <b-img-lazy v-bind="mainProps" :src="getImageUrl(88)" alt="Image 5"></b-img-lazy>
+                        </b-row>
+                    </card>
+                </div>
+                <div class="col-xl-7 order-xl-1">
+                    <card shadow type="secondary">
+                        Información
+                        <b-row style="font-size:12pt">
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Marca: </b> {{model.marca}}
+                            </b-col>
+                            <br />
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Linea: </b> {{model.marca}}
+                            </b-col>
+                            <br />
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Version: </b> {{model.marca}}
+                            </b-col>
+                            <br />
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Modelo: </b> {{model.marca}}
+                            </b-col>
+                            <br />
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Color: </b> {{model.marca}}
+                            </b-col>
+                            <br />
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Serie: </b> {{model.marca}}
+                            </b-col>
+                            <br />
+                            <b-col cols="12" style="margin-bottom: 20px">
+                                <b>Placas: </b> {{model.marca}}
+                            </b-col>
+                            <b-col cols="12">
+                                <b>Chofer: </b> <b-link to="chofer" >{{model.chofer}}</b-link>
+                            </b-col>
+                        </b-row>
+                    </card>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -144,19 +130,78 @@
     name: 'user-profile',
     data() {
       return {
+        semana:'',
         model: {
-          username: '',
-          email: '',
-          firstName: '',
-          lastName: '',
-          address: '',
-          city: '',
-          country: '',
-          zipCode: '',
-          about: '',
+          marca: '',
+          linea: '',
+          version: '',
+          modelo: '',
+          color: '',
+          serie: '',
+          placa: '',
+          chofer: 'Fernando garza',
+          chofer_id: 1
+        },
+        collapsestatus: 'Ocultar',
+        showDocumentos: false,
+        showBalance: false,
+        showFotografias: false,
+        showRevision: false,
+        showChofer: false,
+        mainProps: {
+          center: true,
+          fluidGrow: true,
+          blank: true,
+          blankColor: '#bbb',
+          width: 600,
+          height: 400,
+          class: 'my-5'
         }
       }
     },
+    methods: {
+        changeStatus(id){
+            if(id === 1) {
+                this.showDocumentos = !this.showDocumentos;
+                this.showBalance = false;
+                this.showFotografias = false;
+                this.showRevision = false;
+                this.showChofer = false;
+            }else if(id === 2) {
+                this.showDocumentos = false;
+                this.showBalance = !this.showBalance;
+                this.showFotografias = false;
+                this.showRevision = false;
+                this.showChofer = false;
+            }else if(id === 3) {
+                this.showDocumentos = false;
+                this.showBalance = false;
+                this.showFotografias = !this.showFotografias;
+                this.showRevision = false;
+                this.showChofer = false;
+            }else if(id === 4) {
+                this.showDocumentos = false;
+                this.showBalance = false;
+                this.showFotografias = false;
+                this.showRevision = !this.showRevision;
+                this.showChofer = false;
+            }else if(id === 5) {
+                this.showDocumentos = false;
+                this.showBalance = false;
+                this.showFotografias = false;
+                this.showRevision = false;
+                this.showChofer = !this.showChofer;
+            }
+        },
+        getImageUrl(imageId) {
+            const { width, height } = this.mainProps
+            return `https://picsum.photos/${width}/${height}/?image=${imageId}`
+        }
+    }
   };
 </script>
-<style></style>
+<style>
+.image-overlay {
+  width: 100px;
+}
+</style>

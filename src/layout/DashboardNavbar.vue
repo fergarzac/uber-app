@@ -3,7 +3,7 @@
               id="navbar-main"
               :show-toggle-button="false"
               expand>
-        <ul class="navbar-nav align-items-center d-none d-md-flex">
+        <ul class="navbar-nav align-items-center d-none d-md-flex" style="float: right">
             <li class="nav-item dropdown">
                 <base-dropdown class="nav-link pr-0">
                     <div class="media align-items-center" slot="title">
