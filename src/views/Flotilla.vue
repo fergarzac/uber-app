@@ -13,7 +13,15 @@
                         </b-col>
                         <hr />
                         <b-col cols="12">
-                            <b-button size="sm" v-b-modal.modal-agregar variant="outline-dark">Seleccionar Imagen</b-button>
+                            <b-form-file
+                                id="fotoperfil"
+                                ref="fotoperfil"
+                                v-model="fotoperfil"
+                                accept="image/*"
+                                style="display:none"
+                                @change="changeFoto"
+                            ></b-form-file>
+                            <b-button size="sm" v-b-modal.modal-agregar variant="outline-dark" onclick="document.getElementById('fotoperfil').click();">Seleccionar Imagen</b-button>
                         </b-col>
                      </div>
                     <div class="col-sm-12 col-md-5 order-xl-3">
@@ -64,22 +72,22 @@
                     <div class="col-sm-12 col-md-5 order-xl-2">
                         <card shadow type="secondary">
                             <b-form-file
-                                v-model="file"
+                                v-model="fileFactura"
                                 placeholder="Factura"
                                 drop-placeholder="Factura"
                             ></b-form-file>
                             <b-form-file
-                                v-model="file"
+                                v-model="fileTarjeta"
                                 placeholder="Tarjeta de Circulacion"
                                 drop-placeholder="Tarjeta de Circulacion"
                             ></b-form-file>
                             <b-form-file
-                                v-model="file"
+                                v-model="fileSeguro"
                                 placeholder="Seguro"
                                 drop-placeholder="Seguro"
                             ></b-form-file>
                             <b-form-file
-                                v-model="file"
+                                v-model="filePedimento"
                                 placeholder="Pedimento"
                                 drop-placeholder="Pedimento"
                             ></b-form-file>
@@ -99,7 +107,7 @@
                             <div class="col text-right">
                                 <b-row class="my-1">
                                     <b-col sm="4">
-                                        <b-form-input id="input-small" size="sm" placeholder="Buscar"></b-form-input>
+                                        <b-form-input id="input-small" v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarFlotilla"></b-form-input>
                                     </b-col>
                                     <hr />
                                     <b-col sm="4">
@@ -111,7 +119,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row icon-examples">
-                                <div class="col-lg-3 col-md-6" v-for="(car, index) in flota" :key="car.name + index">
+                                <div class="col-lg-3 col-md-6" v-for="(car, index) in buscar" :key="car.name + index">
                                     <Car v-bind:titulo="car.name" v-bind:id="index" />
                                 </div>
                             </div>
@@ -129,15 +137,26 @@
     components: {
         Car
     },
+    beforeMount: function(){
+        this.buscar = this.flota
+    },
     data() {
       return {
         agregarModal: false,
+        fotoperfil: null,
+        fileFactura: null,
+        fileTarjeta: null,
+        filePedimento: null,
+        fileSeguro: null,
+        buscar: [],
+        busqueda: '',
         flota: [
             {name: 'Dodge'},
             {name: 'Ford'},
             {name: 'Chevrolet'},
             {name: 'Chevrolet'},
             {name: 'Chevrolet'},
+            {name: 'Changos'},
         ],
         marca: '',
         linea: '',
@@ -151,7 +170,23 @@
       }
     },
     methods: {
-      
+      changeFoto(event) {
+          this.fotoperfil = event.target.files;
+      },
+      enviarDatos() {
+          let formData = new FormData();
+          formData.append('file', this.fotoperfil);
+      },
+      buscarFlotilla() {
+          if(this.busqueda.length>0) {
+              var self = this
+              this.buscar = this.flota.filter(function(data) {
+                return data.name.toUpperCase().includes(self.busqueda.toUpperCase());
+            });
+          }else {
+              this.buscar = this.flota;
+          }
+      }
     },
     computed: {
       marcastate() {

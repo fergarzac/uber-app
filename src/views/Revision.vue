@@ -10,18 +10,15 @@
                     <div class="card shadow">
                         <div class="card-header bg-transparent">
                             <div class="col text-left">
-                                <h3 class="mb-0">Choferes</h3>
+                                <h3 class="mb-0">Revision de Flotilla</h3>
                             </div>
                             
                             <div class="col text-right">
                                 <b-row class="my-1">
                                     <b-col sm="4">
-                                        <b-form-input id="input-small"  v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarChoferes"></b-form-input>
+                                        <b-form-input id="input-small" v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarFlotilla"></b-form-input>
                                     </b-col>
                                     <hr />
-                                    <b-col sm="4">
-                                        <b-button size="sm" v-b-modal.modal-agregar variant="outline-dark">Agregar</b-button>
-                                    </b-col>
                                 </b-row>
                                     
                             </div>
@@ -51,19 +48,42 @@
     },
     data() {
       return {
+        agregarModal: false,
+        fotoperfil: null,
+        fileFactura: null,
+        fileTarjeta: null,
+        filePedimento: null,
+        fileSeguro: null,
+        buscar: [],
         busqueda: '',
         flota: [
-            {name: 'Fernando'},
-            {name: 'Alfonso'},
-            {name: 'Jose Luis'},
-            {name: 'Marco'},
-            {name: 'Miguel'},
+            {name: 'Dodge'},
+            {name: 'Ford'},
+            {name: 'Chevrolet'},
+            {name: 'Chevrolet'},
+            {name: 'Chevrolet'},
+            {name: 'Changos'},
         ],
-        buscar: [],
+        marca: '',
+        linea: '',
+        modelo: '',
+        color: '',
+        version: '',
+        serie: '',
+        placas: '',
+        km: '',
+        precio: ''
       }
     },
     methods: {
-      buscarChoferes() {
+      changeFoto(event) {
+          this.fotoperfil = event.target.files;
+      },
+      enviarDatos() {
+          let formData = new FormData();
+          formData.append('file', this.fotoperfil);
+      },
+      buscarFlotilla() {
           if(this.busqueda.length>0) {
               var self = this
               this.buscar = this.flota.filter(function(data) {
@@ -73,6 +93,35 @@
               this.buscar = this.flota;
           }
       }
+    },
+    computed: {
+      marcastate() {
+        return this.marca.length > 0 ? true : false
+      },
+      lineastate() {
+        return this.linea.length > 0 ? true : false
+      },
+      colorstate() {
+        return this.color.length > 0 ? true : false
+      },
+      versionstate() {
+        return this.version.length > 0 ? true : false
+      },
+      modelostate() {
+        return this.modelo.length > 0 ? true : false
+      },
+      seriestate() {
+        return this.serie.length > 0 ? true : false
+      },
+      placasstate() {
+        return this.placas.length > 0 ? true : false
+      },
+      kmstate() {
+        return this.km.length > 0 ? true : false
+      },
+      preciostate() {
+        return this.precio.length > 0 ? true : false
+      },
     }
   };
 </script>

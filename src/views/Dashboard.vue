@@ -7,7 +7,7 @@
                     <stats-card title="Flotilla"
                                 type="gradient-red"
                                 sub-title="20"
-                                icon="ni ni-active-40"
+                                icon="ni ni-bus-front-12"
                                 class="mb-4 mb-xl-0"
                     >
                     </stats-card>
@@ -111,7 +111,7 @@
             End charts-->
 
             <!--Tables-->
-            <div class="row mt-5">
+            <div class="mt-5">
                 <div class="col-xl-12 mb-5 mb-xl-0">
                     <page-visits-table></page-visits-table>
                 </div>
