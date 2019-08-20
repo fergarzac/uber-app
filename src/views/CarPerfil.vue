@@ -160,7 +160,7 @@
       }
     },
     methods: {
-        changeStatus(id){
+        changeStatus(id = 0){
             if(id === 1) {
                 this.showDocumentos = !this.showDocumentos;
                 this.showBalance = false;

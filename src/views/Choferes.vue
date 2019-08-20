@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="(car, index) in flota" :key="car.name + index">
-                                    <Car v-bind:titulo="car.name" v-bind:id="index" />
+                                    <Chofer v-bind:titulo="car.name" v-bind:id="index" />
                                 </div>
                             </div>
                         </div>
@@ -41,10 +41,10 @@
     </div>
 </template>
 <script>
-  import Car from '@/components/Car';
+  import Chofer from '@/components/Chofer';
   export default {
     components: {
-        Car
+        Chofer
     },
     data() {
       return {
