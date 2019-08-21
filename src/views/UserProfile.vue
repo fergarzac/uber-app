@@ -190,7 +190,16 @@
     </div>
 </template>
 <script>
+  import axios from 'axios'
+  import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if(vm.$cookie.get(ID_COOKIE) === null) {
+                    vm.$router.push('/');
+            }
+        });
+    },
     name: 'user-profile',
     data() {
       return {
@@ -207,6 +216,19 @@
         }
       }
     },
+    methods: {
+        getData() {
+            axios.get(URL_API + 'vehiculos/id', ).then((response) => {
+              this.flota = response.data;
+              this.buscarFlotilla();
+           }).catch(function (error) {
+            console.log(error);
+          });
+        }
+    },
+    beforeMount() {
+        this.getData();
+    }
   };
 </script>
 <style></style>

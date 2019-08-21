@@ -5,7 +5,7 @@
         </base-header>
 
         <div class="container-fluid mt--7">
-            <b-modal size="xl" id="modal-agregar" v-model="agregarModal" title="Agregar Vehiculo">
+            <b-modal size="xl" id="modal-agregar" v-model="agregarModal" title="Agregar Vehiculo" @ok="agregarVehiculo">
                 <b-row>
                      <div class="col-sm-12 col-md-2 order-xl-1">
                          <b-col cols="12">
@@ -119,8 +119,8 @@
                         </div>
                         <div class="card-body">
                             <div class="row icon-examples">
-                                <div class="col-lg-3 col-md-6" v-for="(car, index) in buscar" :key="car.name + index">
-                                    <Car v-bind:titulo="car.name" v-bind:id="index" />
+                                <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
+                                    <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" />
                                 </div>
                             </div>
                         </div>
@@ -133,12 +133,18 @@
 </template>
 <script>
   import Car from '@/components/Car';
+  import axios from 'axios'
+  import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if(vm.$cookie.get(ID_COOKIE) === null) {
+                    vm.$router.push('/');
+            }
+        });
+    },
     components: {
         Car
-    },
-    beforeMount: function(){
-        this.buscar = this.flota
     },
     data() {
       return {
@@ -150,14 +156,7 @@
         fileSeguro: null,
         buscar: [],
         busqueda: '',
-        flota: [
-            {name: 'Dodge'},
-            {name: 'Ford'},
-            {name: 'Chevrolet'},
-            {name: 'Chevrolet'},
-            {name: 'Chevrolet'},
-            {name: 'Changos'},
-        ],
+        flota: [],
         marca: '',
         linea: '',
         modelo: '',
@@ -181,12 +180,50 @@
           if(this.busqueda.length>0) {
               var self = this
               this.buscar = this.flota.filter(function(data) {
-                return data.name.toUpperCase().includes(self.busqueda.toUpperCase());
+                return data.marca.toUpperCase().includes(self.busqueda.toUpperCase());
             });
           }else {
               this.buscar = this.flota;
           }
-      }
+      },
+      agregarVehiculo() {
+            axios.post(URL_API + 'vehiculos/add' , 
+                {
+                    'marca' : this.marca, 'linea' : this.linea, 'modelo' : this.modelo, 'color' : this.color, 'version' : this.version, 'serie' : this.serie, 'placas' : this.placas
+                },
+                {
+                    headers: 
+                    {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            ).then((response) => {
+                if(response.data.status == 1) {
+                    this.marca = '';
+                    this.linea = '';
+                    this.modelo = '';
+                    this.color = '';
+                    this.version = '';
+                    this.serie = '';
+                    this.placas = '';
+                    this.getVehiculos();
+                    alert('Agregado');
+                }else {
+                    this.agregarModal = true;
+                    alert('Error');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+      },
+      getVehiculos() {
+          axios.get(URL_API + 'vehiculos/all').then((response) => {
+              this.flota = response.data;
+              this.buscarFlotilla();
+           }).catch(function (error) {
+            console.log(error);
+          });
+      },
     },
     computed: {
       marcastate() {
@@ -216,6 +253,10 @@
       preciostate() {
         return this.precio.length > 0 ? true : false
       },
+      
+    },
+    beforeMount() {
+        this.getVehiculos();
     }
   };
 </script>

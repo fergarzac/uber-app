@@ -115,7 +115,7 @@
                                 <b>Placas: </b> {{model.marca}}
                             </b-col>
                             <b-col cols="12">
-                                <b>Chofer: </b> <b-link to="chofer" >{{model.chofer}}</b-link>
+                                <b>Chofer: </b> <b-link to="chofer" >{{model.idchofer == 0 ? 'Sin chofer asignado': model.chofer}}</b-link>
                             </b-col>
                         </b-row>
                     </card>
@@ -126,11 +126,21 @@
     </div>
 </template>
 <script>
+  import axios from 'axios'
+  import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if(vm.$cookie.get(ID_COOKIE) === null) {
+                    vm.$router.push('/');
+            }
+        });
+    },
     name: 'user-profile',
     data() {
       return {
         semana:'',
+        idCar: '',
         model: {
           marca: '',
           linea: '',
@@ -140,7 +150,7 @@
           serie: '',
           placa: '',
           chofer: 'Fernando garza',
-          chofer_id: 1
+          idchofer: 0
         },
         collapsestatus: 'Ocultar',
         showDocumentos: false,
@@ -196,7 +206,31 @@
         getImageUrl(imageId) {
             const { width, height } = this.mainProps
             return `https://picsum.photos/${width}/${height}/?image=${imageId}`
+        },
+        getData() {
+            axios.post(URL_API + 'vehiculos/id', 
+            {
+                'id' : this.idCar
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+            ).then((response) => {
+                if(response.data.status == 1) {
+                    this.model = response.data.data
+                }
+              console.log(response.data);
+           }).catch(function (error) {
+            console.log(error);
+          });
         }
+    },
+    beforeMount() {
+        console.log(this.$route.params.carId);
+        this.idCar = this.$route.params.carId;
+        this.getData();
     }
   };
 </script>

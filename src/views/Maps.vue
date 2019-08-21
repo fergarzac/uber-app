@@ -76,13 +76,21 @@
     </div>
 </template>
 <script>
+  import axios from 'axios'
+  import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if(vm.$cookie.get(ID_COOKIE) === null) {
+                    vm.$router.push('/');
+            }
+        });
+    },
     mounted() {
       let google= window.google
       let map = document.getElementById('map-canvas');
-      let lat = map.getAttribute('data-lat');
-      let lng = map.getAttribute('data-lng');
-
+      let lat = 32.662132;
+      let lng = -115.466873;
       const myLatlng = new google.maps.LatLng(lat, lng);
       const mapOptions = {
         zoom: 12,
@@ -109,8 +117,8 @@
         title: 'Hello World!'
       });
 
-      const contentString = '<div class="info-window-content"><h2>Argon Dashboard</h2>' +
-        '<p>A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</p></div>';
+      const contentString = '<div class="info-window-content"><h2>Uber Chofer Manager</h2>' +
+        '<p></p></div>';
 
       const infowindow = new google.maps.InfoWindow({
         content: contentString

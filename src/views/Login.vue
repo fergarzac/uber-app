@@ -24,7 +24,7 @@
                                 <span class="text-muted">Recordarme</span>
                             </base-checkbox>
                             <div class="text-center">
-                                <base-button type="secondary" class="my-4">Entrar</base-button>
+                                <base-button type="secondary" @click="login" class="my-4">Entrar</base-button>
                             </div>
                         </form>
                     </div>
@@ -41,7 +41,16 @@
         </div>
 </template>
 <script>
+  import axios from 'axios'
+  import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if(vm.$cookie.get(ID_COOKIE) !== null) {
+                    vm.$router.push('/dashboard');
+            }
+        });
+    },
     name: 'login',
     data() {
       return {
@@ -50,6 +59,28 @@
           password: ''
         }
       }
+    },
+    methods: {
+        login() {
+            axios.post(URL_API + 'users/login' , 
+                {
+                    'usuario' : this.model.usuario, 'contraseña' : this.model.password
+                },
+                {
+                    headers: 
+                    {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            ).then((response) => {
+                if(response.data.status == 1) {
+                    this.$cookie.set(ID_COOKIE, response.data.token, 1);
+                    this.$router.push('/dashboard');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
   }
 </script>
