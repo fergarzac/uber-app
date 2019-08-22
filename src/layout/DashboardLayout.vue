@@ -16,7 +16,7 @@
         <h6 class="navbar-heading text-muted" style="margin-left:15px">Administración</h6>
         <sidebar-item :link="{name: 'Flotilla', icon: 'ni ni-bus-front-12 text-orange', path: '/flotilla'}"/>
         <sidebar-item :link="{name: 'Choferes', icon: 'ni ni-single-02 text-black', path: '/choferes'}"/>
-        <sidebar-item :link="{name: 'Reportes', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
+        <sidebar-item :link="{name: 'Reportes', icon: 'ni ni-bullet-list-67 text-red', path: '/reportes'}"/>
         <h6 class="navbar-heading text-muted" style="margin-left:15px">Revisión</h6>
         <sidebar-item :link="{name: 'Revision', icon: 'ni ni-check-bold text-green', path: '/revision'}"/>
       </template>

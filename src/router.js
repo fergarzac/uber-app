@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: 'dashboard',
+      redirect: 'login',
       component: DashboardLayout,
       children: [
         {
@@ -54,6 +54,16 @@ export default new Router({
           path: '/choferes',
           name: 'choferes',
           component: () => import(/* webpackChunkName: "demo" */ './views/Choferes.vue')
+        },
+        {
+          path: '/revision',
+          name: 'revision',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Revision.vue')
+        },
+        {
+          path: '/reportes',
+          name: 'reportes',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Reportes.vue')
         }
       ]
     },

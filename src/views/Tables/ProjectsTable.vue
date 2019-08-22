@@ -10,7 +10,7 @@
           </h3>
         </div>
         <div class="col text-right">
-          <base-button type="primary" size="sm">See all</base-button>
+          <base-button type="primary" size="sm">Ver todo</base-button>
         </div>
       </div>
     </div>
@@ -22,11 +22,11 @@
                   tbody-classes="list"
                   :data="tableData">
         <template slot="columns">
-          <th>Project</th>
-          <th>Budget</th>
-          <th>Status</th>
-          <th>Users</th>
-          <th>Completion</th>
+          <th>Nombre</th>
+          <th>Vehiculo</th>
+          <th>Antiguedad</th>
+          <th>Ingresos</th>
+          <th>Otros</th>
           <th></th>
         </template>
 
@@ -64,6 +64,19 @@
               <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Jessica Doe">
                 <img alt="Image placeholder" src="img/theme/team-4-800x800.jpg">
               </a>
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
+              </a>
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Romina Hadid">
+                <img alt="Image placeholder" src="img/theme/team-2-800x800.jpg">
+              </a>
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Alexander Smith">
+                <img alt="Image placeholder" src="img/theme/team-3-800x800.jpg">
+              </a>
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Jessica Doe">
+                <img alt="Image placeholder" src="img/theme/team-4-800x800.jpg">
+              </a>
+              
             </div>
           </td>
 
@@ -117,7 +130,8 @@
     },
     data() {
       return {
-        tableData: [
+        tableData: [],
+        tableData1: [
           {
             img: 'img/theme/bootstrap.jpg',
             title: 'Argon Design System',
