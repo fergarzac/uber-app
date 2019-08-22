@@ -109,7 +109,17 @@
 </template>
 <script>
   import Chofer from '@/components/Chofer';
+  import Car from '@/components/Car';
+  import axios from 'axios'
+  import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
+    beforeRouteEnter(to, from, next) {
+        next((vm) => {
+            if(vm.$cookie.get(ID_COOKIE) === null) {
+                    vm.$router.push('/');
+            }
+        });
+    },
     components: {
         Chofer
     },
