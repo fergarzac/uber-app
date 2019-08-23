@@ -83,11 +83,11 @@
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
-                                            <b>Telefono 1: </b> {{model.telefono1}}
+                                            <b>Telefono 1: </b> {{model.telefono_1}}
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
-                                            <b>Telefono 2: </b> {{model.telefono2}}
+                                            <b>Telefono 2: </b> {{model.telefono_2}}
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
@@ -95,14 +95,14 @@
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
-                                            <b>Monto Fianza: </b> {{model.fianza}}
+                                            <b>Monto Fianza: </b> {{model.monto_fianza}}
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
-                                            <b>Referencia: </b> {{model.referencia1}}
+                                            <b>Referencia: </b> {{model.referencia_1}}
                                         </b-col>
                                         <b-col cols="12">
-                                            <b>Referencia: </b> <b-link to="chofer" >{{model.referencia2}}</b-link>
+                                            <b>Referencia: </b> <b-link to="chofer" >{{model.referencia_2}}</b-link>
                                         </b-col>
                                         <b-col cols="12">
                                             <b>ID Uber: </b> <b-link to="chofer" >{{model.iduber}}</b-link>
@@ -136,27 +136,41 @@
           fecha: '',
           nombre: '',
           direccion: '',
-          telefono1: '',
-          telefono2: '',
-          licencia: '',
-          fianza: '',
-          referencia1: '',
-          referencia2: '',
+          telefono_1: '',
+          telefono_2: '',
+          no_licencia: '',
+          monto_fianza: '',
+          referencia_1: '',
+          referencia_2: '',
           iduber: ''
-        }
+        },
+        idChofer: ''
       }
     },
     methods: {
         getData() {
-            axios.get(URL_API + 'vehiculos/id', ).then((response) => {
-              this.flota = response.data;
-              this.buscarFlotilla();
+            console.log(this.idChofer)
+            axios.post(URL_API + 'choferes/id', 
+            {
+                'id' : this.idChofer
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+            ).then((response) => {
+                if(response.data.status == 1) {
+                    this.model = response.data.data
+                }
+              console.log(response.data);
            }).catch(function (error) {
             console.log(error);
           });
         }
     },
     beforeMount() {
+        this.idChofer = this.$route.params.choferId;
         this.getData();
     }
   };

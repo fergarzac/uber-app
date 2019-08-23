@@ -5,7 +5,7 @@
         </base-header>
 
         <div class="container-fluid mt--7">
-            <b-modal size="lg" id="modal-agregar" v-model="agregarModal" title="Agregar Vehiculo">
+            <b-modal size="lg" id="modal-agregar" v-model="agregarModal" title="Agregar Vehiculo" @ok="agregarChofer">
                 <b-row>
                      <div class="col-sm-12 col-md-4 order-xl-1">
                          <b-col cols="12">
@@ -28,44 +28,44 @@
                         <card shadow type="secondary">
                             <b-row class="my-1">
                                 <b-col sm="12">
-                                    <b-form-input id="input-small" v-model="marca" placeholder="Nombre" :state="marcastate"></b-form-input>
+                                    <b-form-input id="input-small" v-model="nombre" placeholder="Nombre" :state="nombrestate"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="12">
-                                    <b-form-input id="input-small" v-model="linea" placeholder="Direccion" :state="lineastate"></b-form-input>
+                                    <b-form-input id="input-small" v-model="direccion" placeholder="Direccion" :state="direccionstate"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="6">
-                                    <b-form-input id="input-small" v-model="version" placeholder="Telefono 1" :state="versionstate"></b-form-input>
+                                    <b-form-input id="input-small" v-model="telefono1" placeholder="Telefono 1" :state="telefono1state"></b-form-input>
                                 </b-col>
                                 <b-col sm="6">
-                                    <b-form-input id="input-small" v-model="modelo" placeholder="Telefono 2" :state="modelostate"></b-form-input>
+                                    <b-form-input id="input-small" v-model="telefono2" placeholder="Telefono 2" :state="telefono2state"></b-form-input>
                                 </b-col>
                                 
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="6">
-                                    <b-form-input id="input-small" v-model="color" placeholder="No.Licencia" :state="colorstate"></b-form-input>
+                                    <b-form-input id="input-small" v-model="licencia" placeholder="No.Licencia" :state="licenciastate"></b-form-input>
                                 </b-col>
                                 <b-col sm="6">
-                                <b-form-input id="input-small" v-model="serie" placeholder="Monto Fianza" :state="seriestate"></b-form-input>
+                                <b-form-input id="input-small" v-model="fianza" placeholder="Monto Fianza" :state="fianzastate"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="12">
-                                <b-form-input id="input-small" v-model="placas" placeholder="Referencia 1" :state="placasstate"></b-form-input>
+                                <b-form-input id="input-small" v-model="referencia1" placeholder="Referencia 1" :state="referencia1state"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="12">
-                                <b-form-input id="input-small" v-model="placas" placeholder="Referencia 2" :state="placasstate"></b-form-input>
+                                <b-form-input id="input-small" v-model="referencia2" placeholder="Referencia 2" :state="referencia2state"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="12">
-                                <b-form-input id="input-small" v-model="placas" placeholder="ID Uber" :state="placasstate"></b-form-input>
+                                <b-form-input id="input-small" v-model="iduber" placeholder="ID Uber" :state="iduberstate"></b-form-input>
                                 </b-col>
                             </b-row>
                         </card>
@@ -95,8 +95,8 @@
                         </div>
                         <div class="card-body">
                             <div class="row icon-examples">
-                                <div class="col-lg-3 col-md-6" v-for="(car, index) in flota" :key="car.name + index">
-                                    <Chofer v-bind:titulo="car.name" v-bind:id="index" />
+                                <div class="col-lg-3 col-md-6" v-for="chofer in buscar" :key="chofer.idchofer">
+                                    <Chofer v-bind:titulo="chofer.nombre" v-bind:id="chofer.idchofer" />
                                 </div>
                             </div>
                         </div>
@@ -128,8 +128,10 @@
     },
     data() {
       return {
+        currentPage: 1,
+        perPage:6,
         busqueda: '',
-        flota: [
+        choferes: [
             {name: 'Fernando'},
             {name: 'Alfonso'},
             {name: 'Jose Luis'},
@@ -137,6 +139,15 @@
             {name: 'Miguel'},
         ],
         buscar: [],
+        nombre: '',
+        direccion: '',
+        telefono1: '',
+        telefono2: '',
+        referencia1: '',
+        referencia2: '',
+        fianza: '',
+        licencia: '',
+        iduber: ''
       }
     },
     methods: {
@@ -149,7 +160,95 @@
           }else {
               this.buscar = this.flota;
           }
-      }
+      },
+      agregarChofer() {
+            axios.post(URL_API + 'choferes/add' , 
+                {
+                    'nombre' : this.nombre, 'direccion' : this.direccion, 'telefono_1' : this.telefono1, 'telefono_1' : this.telefono1, 'no_licencia' : this.licencia, 'monto_fianza' : this.fianza, 'referencia_1' : this.referencia1, 'referencia_2' : this.referencia2, 'id_uber' : this.iduber
+                },
+                {
+                    headers: 
+                    {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            ).then((response) => {
+                console.log(response.data);
+                if(response.data.status == 1) {
+                    this.nombre = '',
+                    this.direccion = '',
+                    this.telefono1 = '',
+                    this.telefono2 = '',
+                    this.referencia1 = '',
+                    this.referencia2 = '',
+                    this.fianza = '',
+                    this.licencia = '',
+                    this.iduber = ''
+                    this.getChoferes();
+                    alert('Agregado');
+                }else {
+                    this.agregarModal = true;
+                    alert('Error');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+      },
+      getChoferes() {
+          axios.get(URL_API + 'choferes/all').then((response) => {
+              console.log(response.data);
+              this.choferes = response.data;
+              this.buscarChofer();
+           }).catch(function (error) {
+            console.log(error);
+          });
+      },
+      buscarChofer(del = 0) {
+          if(this.busqueda.length>0) {
+              var self = this
+              this.buscar = this.choferes.filter(function(data) {
+                return data.marca.toUpperCase().includes(self.busqueda.toUpperCase());
+            });
+          }else {
+              this.buscar = this.choferes.slice(del,(parseInt(del) + parseInt(this.perPage)));
+          }
+      },
+    },
+    computed: {
+      nombrestate() {
+        return this.nombre.length > 0 ? true : false
+      },
+      direccionstate() {
+        return this.direccion.length > 0 ? true : false
+      },
+      telefono1state() {
+        return this.telefono1.length > 0 ? true : false
+      },
+      telefono2state() {
+        return this.telefono2.length > 0 ? true : false
+      },
+      referencia1state() {
+        return this.referencia1.length > 0 ? true : false
+      },
+      referencia2state() {
+        return this.referencia2.length > 0 ? true : false
+      },
+      licenciastate() {
+        return this.licencia.length > 0 ? true : false
+      },
+      fianzastate() {
+        return this.fianza.length > 0 ? true : false
+      },
+      iduberstate() {
+        return this.iduber.length > 0 ? true : false
+      },
+      rows() {
+        return this.flota.length
+      },
+      
+    },
+    beforeMount() {
+        this.getChoferes();
     }
   };
 </script>

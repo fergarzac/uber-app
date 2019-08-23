@@ -107,7 +107,7 @@
                             <div class="col text-right">
                                 <b-row class="my-1">
                                     <b-col sm="4">
-                                        <b-form-input id="input-small" v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarFlotilla"></b-form-input>
+                                        <b-form-input id="input-small" v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarFlotilla(0)"></b-form-input>
                                     </b-col>
                                     <hr />
                                     <b-col sm="4">
@@ -121,6 +121,14 @@
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
                                     <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" />
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <b-pagination
+                                    v-model="currentPage"
+                                    :total-rows="rows"
+                                    :per-page="perPage"
+                                    @change="changePage"
+                                    ></b-pagination>
                                 </div>
                             </div>
                         </div>
@@ -148,6 +156,8 @@
     },
     data() {
       return {
+        currentPage: 1,
+        perPage:8,
         agregarModal: false,
         fotoperfil: null,
         fileFactura: null,
@@ -176,14 +186,14 @@
           let formData = new FormData();
           formData.append('file', this.fotoperfil);
       },
-      buscarFlotilla() {
+      buscarFlotilla(del = 0) {
           if(this.busqueda.length>0) {
               var self = this
               this.buscar = this.flota.filter(function(data) {
                 return data.marca.toUpperCase().includes(self.busqueda.toUpperCase());
             });
           }else {
-              this.buscar = this.flota;
+              this.buscar = this.flota.slice(del,(parseInt(del) + parseInt(this.perPage)));
           }
       },
       agregarVehiculo() {
@@ -224,6 +234,9 @@
             console.log(error);
           });
       },
+      changePage() {
+          this.buscarFlotilla(parseInt(this.currentPage - 1));
+      },
     },
     computed: {
       marcastate() {
@@ -252,6 +265,9 @@
       },
       preciostate() {
         return this.precio.length > 0 ? true : false
+      },
+      rows() {
+        return this.flota.length
       },
       
     },

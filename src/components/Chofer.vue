@@ -13,7 +13,7 @@
       {{descripcion}}
     </b-card-text>
 
-    <b-button variant="outline-dark" :to="{ name: 'profile', params: { carId: id } }">Ver</b-button>
+    <b-button variant="outline-dark" :to="{ name: 'profile', params: { choferId: id } }">Ver</b-button>
   </b-card>
 </template>
 <script>

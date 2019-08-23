@@ -206,7 +206,7 @@
         getImageUrl(imageId) {
             const { width, height } = this.mainProps
             return `https://picsum.photos/${width}/${height}/?image=${imageId}`
-        },
+        }, 
         getData() {
             axios.post(URL_API + 'vehiculos/id', 
             {

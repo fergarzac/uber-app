@@ -16,7 +16,7 @@
                             <div class="col text-right">
                                 <b-row class="my-1">
                                     <b-col sm="4">
-                                        <b-form-input id="input-small" v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarFlotilla"></b-form-input>
+                                        <b-form-input id="input-small" v-model="busqueda" size="sm" placeholder="Buscar" @keyup="buscarFlotilla(0)"></b-form-input>
                                     </b-col>
                                     <hr />
                                 </b-row>
@@ -25,8 +25,16 @@
                         </div>
                         <div class="card-body">
                             <div class="row icon-examples">
-                                <div class="col-lg-3 col-md-6" v-for="(car, index) in buscar" :key="car.name + index">
-                                    <Car v-bind:titulo="car.name" v-bind:id="index" />
+                                <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
+                                    <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" />
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <b-pagination
+                                    v-model="currentPage"
+                                    :total-rows="rows"
+                                    :per-page="perPage"
+                                    @change="changePage"
+                                    ></b-pagination>
                                 </div>
                             </div>
                         </div>
@@ -57,6 +65,8 @@
     },
     data() {
       return {
+        currentPage: 1,
+        perPage:8,
         agregarModal: false,
         fotoperfil: null,
         fileFactura: null,
@@ -65,14 +75,7 @@
         fileSeguro: null,
         buscar: [],
         busqueda: '',
-        flota: [
-            {name: 'Dodge'},
-            {name: 'Ford'},
-            {name: 'Chevrolet'},
-            {name: 'Chevrolet'},
-            {name: 'Chevrolet'},
-            {name: 'Changos'},
-        ],
+        flota: [],
         marca: '',
         linea: '',
         modelo: '',
@@ -92,16 +95,57 @@
           let formData = new FormData();
           formData.append('file', this.fotoperfil);
       },
-      buscarFlotilla() {
+      buscarFlotilla(del = 0) {
           if(this.busqueda.length>0) {
               var self = this
               this.buscar = this.flota.filter(function(data) {
-                return data.name.toUpperCase().includes(self.busqueda.toUpperCase());
+                return data.marca.toUpperCase().includes(self.busqueda.toUpperCase());
             });
           }else {
-              this.buscar = this.flota;
+              this.buscar = this.flota.slice(del,(parseInt(del) + parseInt(this.perPage)));
           }
-      }
+      },
+      agregarVehiculo() {
+            axios.post(URL_API + 'vehiculos/add' , 
+                {
+                    'marca' : this.marca, 'linea' : this.linea, 'modelo' : this.modelo, 'color' : this.color, 'version' : this.version, 'serie' : this.serie, 'placas' : this.placas
+                },
+                {
+                    headers: 
+                    {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            ).then((response) => {
+                if(response.data.status == 1) {
+                    this.marca = '';
+                    this.linea = '';
+                    this.modelo = '';
+                    this.color = '';
+                    this.version = '';
+                    this.serie = '';
+                    this.placas = '';
+                    this.getVehiculos();
+                    alert('Agregado');
+                }else {
+                    this.agregarModal = true;
+                    alert('Error');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+      },
+      getVehiculos() {
+          axios.get(URL_API + 'vehiculos/all').then((response) => {
+              this.flota = response.data;
+              this.buscarFlotilla();
+           }).catch(function (error) {
+            console.log(error);
+          });
+      },
+      changePage() {
+          this.buscarFlotilla(parseInt(this.currentPage - 1));
+      },
     },
     computed: {
       marcastate() {
@@ -131,6 +175,12 @@
       preciostate() {
         return this.precio.length > 0 ? true : false
       },
+      rows() {
+        return this.flota.length
+      },
+    },
+    beforeMount() {
+        this.getVehiculos();
     }
   };
 </script>
