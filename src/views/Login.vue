@@ -73,6 +73,7 @@
                     }
                 }
             ).then((response) => {
+                console.log(response.data)
                 if(response.data.status == 1) {
                     this.$cookie.set(ID_COOKIE, response.data.token, 1);
                     this.$router.push('/dashboard');

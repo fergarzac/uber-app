@@ -130,6 +130,8 @@
       return {
         currentPage: 1,
         perPage:6,
+        fotoperfil: null,
+        agregarModal: false,
         busqueda: '',
         choferes: [
             {name: 'Fernando'},
@@ -151,6 +153,9 @@
       }
     },
     methods: {
+      changeFoto(event) {
+        this.fotoperfil = event.target.files;
+      },
       buscarChoferes() {
           if(this.busqueda.length>0) {
               var self = this
