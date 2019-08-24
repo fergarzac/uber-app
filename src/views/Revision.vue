@@ -105,36 +105,6 @@
               this.buscar = this.flota.slice(del,(parseInt(del) + parseInt(this.perPage)));
           }
       },
-      agregarVehiculo() {
-            axios.post(URL_API + 'vehiculos/add' , 
-                {
-                    'marca' : this.marca, 'linea' : this.linea, 'modelo' : this.modelo, 'color' : this.color, 'version' : this.version, 'serie' : this.serie, 'placas' : this.placas
-                },
-                {
-                    headers: 
-                    {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }
-            ).then((response) => {
-                if(response.data.status == 1) {
-                    this.marca = '';
-                    this.linea = '';
-                    this.modelo = '';
-                    this.color = '';
-                    this.version = '';
-                    this.serie = '';
-                    this.placas = '';
-                    this.getVehiculos();
-                    alert('Agregado');
-                }else {
-                    this.agregarModal = true;
-                    alert('Error');
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-      },
       getVehiculos() {
           axios.get(URL_API + 'vehiculos/all').then((response) => {
               this.flota = response.data;

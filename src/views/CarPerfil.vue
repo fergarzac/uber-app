@@ -208,13 +208,13 @@
             return `https://picsum.photos/${width}/${height}/?image=${imageId}`
         }, 
         getData() {
+            let formData = new FormData();
+            formData.append('id', this.idCar);
             axios.post(URL_API + 'vehiculos/id', 
-            {
-                'id' : this.idCar
-            },
+            formData,
             {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'multipart/form-data'
                 }
             }
             ).then((response) => {
@@ -228,7 +228,6 @@
         }
     },
     beforeMount() {
-        console.log(this.$route.params.carId);
         this.idCar = this.$route.params.carId;
         this.getData();
     }
