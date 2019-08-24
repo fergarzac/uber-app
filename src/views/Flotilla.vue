@@ -197,14 +197,20 @@
           }
       },
       agregarVehiculo() {
+            let formData = new FormData();
+            formData.append('marca', this.marca);
+            formData.append('linea', this.linea);
+            formData.append('modelo', this.modelo);
+            formData.append('color', this.color);
+            formData.append('version', this.version);
+            formData.append('serie', this.serie);
+            formData.append('placas', this.placas);
             axios.post(URL_API + 'vehiculos/add' , 
-                {
-                    'marca' : this.marca, 'linea' : this.linea, 'modelo' : this.modelo, 'color' : this.color, 'version' : this.version, 'serie' : this.serie, 'placas' : this.placas
-                },
+                formData,
                 {
                     headers: 
                     {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                       'Content-Type': 'multipart/form-data'
                     }
                 }
             ).then((response) => {

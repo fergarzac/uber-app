@@ -62,14 +62,15 @@
     },
     methods: {
         login() {
+            let formData = new FormData();
+            formData.append('usuario', this.model.usuario);
+            formData.append('contraseña', this.model.password);
             axios.post(URL_API + 'users/login' , 
-                {
-                    'usuario' : this.model.usuario, 'contraseña' : this.model.password
-                },
+                formData,
                 {
                     headers: 
                     {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'multipart/form-data'
                     }
                 }
             ).then((response) => {
