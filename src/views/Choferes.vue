@@ -9,7 +9,7 @@
                 <b-row>
                      <div class="col-sm-12 col-md-4 order-xl-1">
                          <b-col cols="12">
-                            <b-img src="https://picsum.photos/125/125/?image=58" id="foto_perfil" rounded alt="Rounded image"></b-img>
+                            <b-img src="https://picsum.photos/125/125/?image=58" style="width:50%" id="foto_perfil" rounded alt="Rounded image"></b-img>
                         </b-col>
                         <hr />
                         <b-col cols="12">
@@ -18,7 +18,7 @@
                                 ref="fotoperfil"
                                 v-model="fotoperfil"
                                 accept="image/*"
-                                style="display:none"
+                                style="display:none;"
                                 @change="changeFoto"
                             ></b-form-file>
                             <b-button size="sm" v-b-modal.modal-agregar variant="outline-dark" onclick="document.getElementById('fotoperfil').click();">Seleccionar Imagen</b-button>
