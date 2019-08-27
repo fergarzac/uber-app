@@ -23,14 +23,21 @@
                             <h1>Documentos</h1>
                             <card shadow type="secondary">
                                  <b-row>
-                                    <b-col cols="12" md="auto">
-                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=54" alt="Image 1"></b-img>
+                                    <b-col cols="12" md="auto" v-if="model.factura !== ''">
+                                        <h5>Factura</h5>
+                                        <b-img thumbnail style="width:250px" fluid :src="model.factura" alt="Image 1"></b-img>
                                     </b-col>
-                                    <b-col cols="12" md="auto">
-                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=58" alt="Image 2"></b-img>
+                                    <b-col cols="12" md="auto" v-if="model.pedimento !== ''">
+                                        <h5>Pedimento</h5>
+                                        <b-img thumbnail style="width:250px" fluid :src="model.pedimento" alt="Image 2"></b-img>
                                     </b-col>
-                                    <b-col cols="12" md="auto">
-                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=59" alt="Image 3"></b-img>
+                                    <b-col cols="12" md="auto" v-if="model.tarjeta !== ''">
+                                        <h5>Tarjeta de Circulacion</h5>
+                                        <b-img thumbnail style="width:250px" fluid :src="model.tarjeta" alt="Image 3"></b-img>
+                                    </b-col>
+                                    <b-col cols="12" md="auto" v-if="model.seguro !== ''">
+                                        <h5>Seguro</h5>
+                                        <b-img thumbnail style="width:250px" fluid :src="model.seguro" alt="Image 3"></b-img>
                                     </b-col>
                                 </b-row>
                             </card>
@@ -42,14 +49,14 @@
                             <h1>Fotografias</h1>
                             <card shadow type="secondary">
                                  <b-row>
-                                    <b-col cols="12" md="auto">
-                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=54" alt="Image 1"></b-img>
+                                    <b-col cols="12" md="auto" >
+                                        <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=54" alt="Image 1"></b-img>
                                     </b-col>
                                     <b-col cols="12" md="auto">
-                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=58" alt="Image 2"></b-img>
+                                        <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=58" alt="Image 2"></b-img>
                                     </b-col>
                                     <b-col cols="12" md="auto">
-                                    <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=59" alt="Image 3"></b-img>
+                                        <b-img thumbnail fluid src="https://picsum.photos/250/250/?image=59" alt="Image 3"></b-img>
                                     </b-col>
                                 </b-row>
                             </card>
@@ -149,6 +156,10 @@
           color: '',
           serie: '',
           placa: '',
+          tarjeta: '',
+          factura: '',
+          pedimento: '',
+          seguro: '',
           chofer: 'Fernando garza',
           idchofer: 0
         },
@@ -220,6 +231,10 @@
             ).then((response) => {
                 if(response.data.status == 1) {
                     this.model = response.data.data
+                    this.model.factura = response.data.data.factura != null && response.data.data.factura !== '' ? URL_API + 'img/'+ response.data.data.factura.split('.')[0] : '';
+                    this.model.tarjeta = response.data.data.tarjeta_circulacion != null && response.data.data.tarjeta_circulacion !== '' ? URL_API + 'img/'+ response.data.data.tarjeta_circulacion.split('.')[0] : '';
+                    this.model.seguro = response.data.data.seguro != null && response.data.data.seguro !== '' ? URL_API + 'img/'+ response.data.data.seguro.split('.')[0] : '';
+                    this.model.pedimento = response.data.data.pedimento != null && response.data.data.pedimento !== '' ? URL_API + 'img/'+ response.data.data.pedimento.split('.')[0] : '';
                 }
               console.log(response.data);
            }).catch(function (error) {

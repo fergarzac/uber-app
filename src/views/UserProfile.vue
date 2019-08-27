@@ -16,7 +16,8 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                        <img src="https://thispersondoesnotexist.com/image" class="rounded-circle">
+                                        <b-img :src="perfil" style="height:150px" id="foto_perfil" class="rounded-circle"  alt="Rounded image"></b-img>
+                          
                                     </a>
                                 </div>
                             </div>
@@ -29,6 +30,16 @@
                             <div class="row" style="margin-top:60px">
                                 <div class="col-md-6 offset-md-3">
                                     <b-button style="width:100%" variant="outline-dark">Cambiar Foto</b-button>
+                                    <b-button style="width:100%" variant="outline-dark" onclick="document.getElementById('fotoperfil').click();">Tomar Foto</b-button>
+
+                                    <b-form-file
+                                        capture="user"
+                                        id="fotoperfil"
+                                        ref="fotoperfil"
+                                        v-model="fotoperfil"
+                                        accept="image/*"
+                                        style="display:none;"
+                                    ></b-form-file>
                                 </div>
                             </div>
                             <hr />
@@ -91,7 +102,7 @@
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
-                                            <b>No. Licencia: </b> {{model.licencia}}
+                                            <b>No. Licencia: </b> {{model.no_licencia}}
                                         </b-col>
                                         <br />
                                         <b-col cols="12" style="margin-bottom: 20px">
@@ -105,7 +116,7 @@
                                             <b>Referencia: </b> <b-link to="chofer" >{{model.referencia_2}}</b-link>
                                         </b-col>
                                         <b-col cols="12">
-                                            <b>ID Uber: </b> <b-link to="chofer" >{{model.iduber}}</b-link>
+                                            <b>ID Uber: </b> <b-link to="chofer" >{{model.id_uber}}</b-link>
                                         </b-col>
                                     </b-row>
                                 </div>
@@ -144,7 +155,8 @@
           referencia_2: '',
           iduber: ''
         },
-        idChofer: ''
+        idChofer: '',
+        perfil: ''
       }
     },
     methods: {
@@ -161,9 +173,11 @@
             }
             ).then((response) => {
                 if(response.data.status == 1) {
-                    this.model = response.data.data
+                    this.model = response.data.data;
+                    console.log(this.model);
+                    this.perfil = this.model.foto_id !== null && this.model.foto_id !== '' ? URL_API +'img/' + this.model.foto_id.split('.')[0] : 'https://thispersondoesnotexist.com/';
+                    console.log(this.perfil);
                 }
-              console.log(response.data);
            }).catch(function (error) {
             console.log(error);
           });

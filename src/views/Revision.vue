@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
-                                    <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" />
+                                    <Car2 v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" />
                                 </div>
                                 <div class="col-lg-12 col-md-12">
                                     <b-pagination
@@ -46,7 +46,7 @@
     </div>
 </template>
 <script>
-  import Car from '@/components/Car';
+  import Car2 from '@/components/Car2';
   import axios from 'axios'
   import {ID_COOKIE, URL_API} from "../constants/Constants";
   export default {
@@ -58,7 +58,7 @@
         });
     },
     components: {
-        Car
+        Car2
     },
     beforeMount: function(){
         this.buscar = this.flota

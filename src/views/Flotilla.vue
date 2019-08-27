@@ -75,21 +75,25 @@
                                 v-model="fileFactura"
                                 placeholder="Factura"
                                 drop-placeholder="Factura"
+                                @change="changeFactura"
                             ></b-form-file>
                             <b-form-file
                                 v-model="fileTarjeta"
                                 placeholder="Tarjeta de Circulacion"
                                 drop-placeholder="Tarjeta de Circulacion"
+                                @change="changeTarjeta"
                             ></b-form-file>
                             <b-form-file
                                 v-model="fileSeguro"
                                 placeholder="Seguro"
                                 drop-placeholder="Seguro"
+                                @change="changeSeguro"
                             ></b-form-file>
                             <b-form-file
                                 v-model="filePedimento"
                                 placeholder="Pedimento"
                                 drop-placeholder="Pedimento"
+                                @change="changePedimento"
                             ></b-form-file>
                         </card>
                     </div>
@@ -196,6 +200,18 @@
               this.buscar = this.flota.slice(del,(parseInt(del) + parseInt(this.perPage)));
           }
       },
+      changeFactura(event) {
+        this.fileFactura = event.target.files[0];
+      },
+      changeTarjeta(event) {
+        this.fileTarjeta = event.target.files[0];
+      },
+      changeSeguro(event) {
+        this.fileSeguro = event.target.files[0];
+      },
+      changePedimento(event) {
+        this.filePedimento = event.target.files[0];
+      },
       agregarVehiculo() {
             let formData = new FormData();
             formData.append('marca', this.marca);
@@ -205,6 +221,11 @@
             formData.append('version', this.version);
             formData.append('serie', this.serie);
             formData.append('placas', this.placas);
+
+            formData.append('factura', this.fileFactura);
+            formData.append('tarjeta', this.fileTarjeta);
+            formData.append('pedimento', this.filePedimento);
+            formData.append('seguro', this.fileSeguro);
             axios.post(URL_API + 'vehiculos/add' , 
                 formData,
                 {
@@ -222,6 +243,10 @@
                     this.version = '';
                     this.serie = '';
                     this.placas = '';
+                    this.fileFactura = null;
+                    this.fileTarjeta = null;
+                    this.filePedimento = null;
+                    this.fileSeguro = null;
                     this.getVehiculos();
                     alert('Agregado');
                 }else {
@@ -237,7 +262,7 @@
               this.flota = response.data;
               this.buscarFlotilla();
            }).catch(function (error) {
-            console.log(error);
+              console.log(error);
           });
       },
       changePage() {

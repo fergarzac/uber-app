@@ -1,9 +1,10 @@
 <template>
     <b-card
     :title="titulo"
-    :img-src="img"
+    :img-src="perfil"
     img-alt="Image"
     img-top
+    img-height ='100px'
     tag="article"
     style="max-width: 20rem;"
     border-variant="dark"
@@ -17,6 +18,7 @@
   </b-card>
 </template>
 <script>
+import {URL_API} from "../constants/Constants";
 export default {
     props: {
         id:{
@@ -25,7 +27,6 @@ export default {
         },
         img:{
             type: String,
-            default: 'https://picsum.photos/600/300/?image=25'
         },
         titulo:{
             type: String
@@ -35,7 +36,18 @@ export default {
         }
     },
     data(){
-        return {}
-    }
+        return {
+            perfil: ''
+        }
+    },
+    created: function() {
+        if(this.img != null && this.img.length>0){
+            var name = this.img.split('.');
+            this.perfil = URL_API + 'img/' + name[0];
+        }else {
+            this.perfil = 'https://picsum.photos/600/300/?image=25';
+        }
+    },
+    
 }
 </script>

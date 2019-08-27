@@ -96,7 +96,7 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="chofer in buscar" :key="chofer.idchofer">
-                                    <Chofer v-bind:titulo="chofer.nombre" v-bind:id="chofer.idchofer" />
+                                    <Chofer v-bind:titulo="chofer.nombre" v-bind:id="chofer.idchofer" v-bind:img="chofer.foto_id" />
                                 </div>
                             </div>
                         </div>
@@ -112,6 +112,7 @@
   import Car from '@/components/Car';
   import axios from 'axios'
   import {ID_COOKIE, URL_API} from "../constants/Constants";
+import { URL } from 'url';
   export default {
     beforeRouteEnter(to, from, next) {
         next((vm) => {
@@ -129,7 +130,7 @@
     data() {
       return {
         currentPage: 1,
-        perPage:6,
+        perPage:8,
         fotoperfil: null,
         agregarModal: false,
         busqueda: '',
