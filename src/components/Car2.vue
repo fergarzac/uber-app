@@ -14,7 +14,7 @@
     </b-card-text>
 
     <b-button variant="outline-dark"  @click="modal = !modal">Revisar</b-button>
-    <b-modal :id="'modal-lg'+id" size="xl" :title="'Revision de ' + titulo " v-model="modal">
+    <b-modal :id="'modal-lg'+id" size="xl" :title="'Revision de ' + titulo " v-model="modal" hide-footer>
         <b-collapse v-model='fotografiasPage' id="collapapse-fotos" class="mt-2">
             <b-card>
                 <h5>Fotos</h5>
@@ -27,7 +27,7 @@
                             capture
                             id="fotofrente"
                             ref="fotofrente"
-                            v-model="fotofrente"
+                            v-model="fotos.fotofrente"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoFrente"
@@ -41,7 +41,7 @@
                             capture
                             id="fotocostadoderecho"
                             ref="fotocostadoderecho"
-                            v-model="fotocostadoderecho"
+                            v-model="fotos.fotocostadoderecho"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoCostadoDerecho"
@@ -55,7 +55,7 @@
                             capture
                             id="fotocostadoizquierdo"
                             ref="fotocostadoizquierdo"
-                            v-model="fotocostadoizquierdo"
+                            v-model="fotos.fotocostadoizquierdo"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoCostadoIzquierdo"
@@ -69,7 +69,7 @@
                             capture
                             id="fotomotor"
                             ref="fotomotor"
-                            v-model="fotomotor"
+                            v-model="fotos.fotomotor"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoMotor"
@@ -83,7 +83,7 @@
                             capture
                             id="fototrasera"
                             ref="fototrasera"
-                            v-model="fototrasera"
+                            v-model="fotos.fototrasera"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoTrasera"
@@ -97,7 +97,7 @@
                             capture
                             id="fotointeriorfrente"
                             ref="fotointeriorfrente"
-                            v-model="fotointeriorfrente"
+                            v-model="fotos.fotointeriorfrente"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoInteriorFrente"
@@ -111,7 +111,7 @@
                             capture
                             id="fotointeriortrasero"
                             ref="fotointeriortrasero"
-                            v-model="fotointeriortrasero"
+                            v-model="fotos.fotointeriortrasero"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoInteriorTrasero"
@@ -125,7 +125,7 @@
                             capture
                             id="fotocajuela"
                             ref="fotocajuela"
-                            v-model="fotocajuela"
+                            v-model="fotos.fotocajuela"
                             accept="image/*"
                             style="display:none;"
                             @change="changeFotoCajuela"
@@ -145,7 +145,7 @@
                         capture
                         id="fototablero"
                         ref="fototablero"
-                        v-model="fototablero"
+                        v-model="fotos.fototablero"
                         accept="image/*"
                         style="display:none;"
                         @change="changeFotoTablero"
@@ -158,7 +158,7 @@
                         label-for="input-1"
                         :state="kilometrajestate"
                     >
-                        <b-form-input id="input-1" v-model="kilometraje" placeholder="Kilometraje" :state="kilometrajestate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.kilometraje" placeholder="Kilometraje" :state="kilometrajestate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -170,20 +170,20 @@
                     <b-table striped hover :items="items" :fields="fields" responsive="sm">
                         
                         <template slot="si" slot-scope="row">
-                            <b-form-radio v-model="row.item.selected" name="some-radios" value="true"></b-form-radio>
+                            <b-form-radio v-model="row.item.selected" :name="row.item.tipo+'radios'" value="true"></b-form-radio>
                         </template>
                         <template slot="no" slot-scope="row">
-                            <b-form-radio v-model="row.item.selected" name="some-radios" value="false"></b-form-radio>
+                            <b-form-radio v-model="row.item.selected" :name="row.item.tipo+'radios'" value="false"></b-form-radio>
                         </template>
                     </b-table>
                 </b-col>
                 <b-col xs='auto'>
                     <b-table striped hover :items="items2" :fields="fields" responsive="sm">
                         <template slot="si" slot-scope="row">
-                            <b-form-radio v-model="row.item.selected" name="some-radios" value="true"></b-form-radio>
+                            <b-form-radio v-model="row.item.selected" :name="row.item.tipo+'radios'" value="true"></b-form-radio>
                         </template>
                         <template slot="no" slot-scope="row">
-                            <b-form-radio v-model="row.item.selected" name="some-radios" value="false"></b-form-radio>
+                            <b-form-radio v-model="row.item.selected" :name="row.item.tipo+'radios'" value="false"></b-form-radio>
                         </template>
                     </b-table>
                 </b-col>
@@ -198,7 +198,7 @@
                         label="Incentivos y otros pagos"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.incetivos" :state="incentivostate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -207,7 +207,7 @@
                         label="Ganancias totales de viajes"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.ganancias_totales" :state="gananciasstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -216,7 +216,7 @@
                         label="Efectivo recolectado"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.efectivo" :state="efectivostate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -225,7 +225,7 @@
                         label="Horas conectadas"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.horas_conectado" :state="horasstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -234,7 +234,7 @@
                         label="Deposito bancario"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.depositos_bancarios" :state="depositostate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -243,7 +243,7 @@
                         label="Renta"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.renta" :state="rentastate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -252,7 +252,7 @@
                         label="Pendientes"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.pedientes" :state="pendientesstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -261,7 +261,7 @@
                         label="Multas"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.multas" :state="multasstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -270,7 +270,7 @@
                         label="Choques"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.choques" :state="choquesstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -279,7 +279,7 @@
                         label="Total"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.total" :state="totalstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -288,7 +288,7 @@
                         label="Pendiente"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="name" :state="state" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.pendiente" :state="pendientestate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -300,10 +300,13 @@
                     <b-button @click="changeBeforePage">&lsaquo;</b-button>
                 </b-button-group>
                 <b-button-group class="mx-1" v-if='isFirst' >
-                    <b-button style="display:hidden">&lsaquo;</b-button>
+                    <b-button @click="modal = false">Cancelar</b-button>
                 </b-button-group>
                 <b-button-group class="mx-12" v-if='!isLast'>
                     <b-button  @click="changeNextPage">&rsaquo;</b-button>
+                </b-button-group>
+                <b-button-group class="mx-12" v-if='isLast'>
+                    <b-button  @click="sendData">Terminar</b-button>
                 </b-button-group>
             </b-button-toolbar>
           </b-col>
@@ -445,6 +448,7 @@ export default {
                     selected: '',
                 }
             ],
+            
             modal: false,
             isFirst: true,
             page: 0,
@@ -453,16 +457,31 @@ export default {
             marcarPage: false,
             finPage: false,
             isLast: false,
-            fotofrente: null,
-            fotomotor: null,
-            fotocostadoderecho: null,
-            fotocostadoizquierdo: null,
-            fototrasera: null,
-            fotocajuela: null,
-            fotointeriorfrente: null,
-            fotointeriortrasero: null,
-            fototablero: null,
-            kilometraje: '',
+            data:{
+                kilometraje: '',
+                incetivos: '0',
+                ganancias_totales: '0',
+                efectivo: '0',
+                horas_conectado: '0',
+                depositos_bancarios: '0',
+                renta: '0',
+                pedientes: '0',
+                multas: '0',
+                choques: '0',
+                total: '0',
+                pendiente:'0',
+            },
+            fotos: {
+                fotofrente: null,
+                fotomotor: null,
+                fotocostadoderecho: null,
+                fotocostadoizquierdo: null,
+                fototrasera: null,
+                fotocajuela: null,
+                fotointeriorfrente: null,
+                fotointeriortrasero: null,
+                fototablero: null
+            }
         }
     },
     methods: {
@@ -490,7 +509,6 @@ export default {
         changeBeforePage() {
             this.page--;
             this.isLast = false;
-            console.log(this.page);
             if(this.page == 0) {
                 this.fotografiasPage = true;
                 this.informacionPage = false;
@@ -508,7 +526,7 @@ export default {
             }
         },
         changeFotoFrente(event) {
-            this.fotofrente = event.target.files[0];
+            this.fotos.fotofrente = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('frente');
             reader.onloadend = function() {
@@ -517,7 +535,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoMotor(event) {
-            this.fotomotor = event.target.files[0];
+            this.fotos.fotomotor = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('motor');
             reader.onloadend = function() {
@@ -526,7 +544,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoCostadoDerecho(event) {
-            this.fotocostadoderecho = event.target.files[0];
+            this.fotos.fotocostadoderecho = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('costadoderecho');
             reader.onloadend = function() {
@@ -535,7 +553,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoCostadoIzquierdo(event) {
-            this.fotocostadoizquierdo = event.target.files[0];
+            this.fotos.fotocostadoizquierdo = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('costadoizquierdo');
             reader.onloadend = function() {
@@ -544,7 +562,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoCajuela(event) {
-            this.fotocajuela = event.target.files[0];
+            this.fotos.fotocajuela = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('cajuela');
             reader.onloadend = function() {
@@ -553,7 +571,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoInteriorFrente(event) {
-            this.fotointeriorfrente = event.target.files[0];
+            this.fotos.fotointeriorfrente = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('interiorfrente');
             reader.onloadend = function() {
@@ -562,7 +580,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoInteriorTrasero(event) {
-            this.fotointeriortrasero = event.target.files[0];
+            this.fotos.fotointeriortrasero = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('interiortrasero');
             reader.onloadend = function() {
@@ -571,7 +589,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoTrasera(event) {
-            this.fototrasera = event.target.files[0];
+            this.fotos.fototrasera = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('trasera');
             reader.onloadend = function() {
@@ -580,7 +598,7 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         changeFotoTablero(event) {
-            this.fototablero = event.target.files[0];
+            this.fotos.fototablero = event.target.files[0];
             var reader = new FileReader();
             var img = document.getElementById('tablero');
             reader.onloadend = function() {
@@ -588,11 +606,51 @@ export default {
             }
             reader.readAsDataURL(event.target.files[0]);
         },
+        sendData() {
+            let formData = new FormData();
+            formData.append('fotos', this.fotos);
+            formData.append('checklist', Array.prototype.concat(this.items, this.items2));
+            formData.append('data', this.data);
+        }
     },
     computed: {
         kilometrajestate() {
-            return this.kilometraje.length > 0;
+            return this.data.kilometraje.length > 0;
+        },
+        incentivostate() {
+            return this.data.incetivos.length > 0;
+        },
+        gananciasstate() {
+            return this.data.ganancias_totales.length > 0;
+        },
+        efectivostate() {
+            return this.data.efectivo.length > 0;
+        },
+        horasstate() {
+            return this.data.horas_conectado.length > 0;
+        },
+        depositostate() {
+            return this.data.depositos_bancarios.length > 0;
+        },
+        rentastate() {
+            return this.data.renta.length > 0;
+        },
+        pendientesstate() {
+            return this.data.pedientes.length > 0;
+        },
+        multasstate() {
+            return this.data.multas.length > 0;
+        },
+        choquesstate() {
+            return this.data.choques.length > 0;
+        },
+        totalstate() {
+            return this.data.total.length > 0;
+        },
+        pendientestate() {
+            return this.data.pendiente.length > 0;
         }
+
     }
 }
 </script>
