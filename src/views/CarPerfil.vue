@@ -350,6 +350,31 @@
            }).catch(function (error) {
             console.log(error);
           });
+        },
+        buscarBalanceRevision() {
+            let formData = new FormData();
+            formData.append('week', this.fotos_semana);
+            formData.append('id', this.idCar);
+            axios.post(URL_API + 'revisiones/week', 
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            ).then((response) => {
+                if(response.data.length > 0) {
+                    this.urlApi = URL_API;
+                    this.imagenes = JSON.parse(response.data[0].rutas_imagenes);
+                    this.imagenesrevision = true;
+                }else {
+                    this.imagenes = [];
+                    this.imagenesrevision = false;
+                }
+                
+           }).catch(function (error) {
+            console.log(error);
+          });
         }
     },
     beforeMount() {
