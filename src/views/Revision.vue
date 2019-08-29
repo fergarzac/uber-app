@@ -111,7 +111,7 @@
               this.buscarFlotilla();
            }).catch(function (error) {
             console.log(error);
-          });
+           });
       },
       changePage() {
           this.buscarFlotilla(parseInt(this.currentPage - 1));

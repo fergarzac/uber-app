@@ -3,12 +3,11 @@
     :title="titulo"
     :img-src="perfil"
     img-alt="Image"
-    img-top
-    img-height ='100px'
+    img-height ='150px'
     tag="article"
-    style="max-width: 20rem;"
     border-variant="dark"
     class="mb-2"
+    text-variant="white"
   >
     <b-card-text>
       {{descripcion}}

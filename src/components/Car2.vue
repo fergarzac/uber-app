@@ -198,7 +198,7 @@
                         label="Incentivos y otros pagos"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.incetivos" :state="incentivostate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.incentivos" :state="incentivostate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -252,7 +252,7 @@
                         label="Pendientes"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.pedientes" :state="pendientesstate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.pendientes" :state="pendientesstate" trim></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -297,16 +297,16 @@
           <b-col md="12">
             <b-button-toolbar justify aria-label="Toolbar with button groups">
                 <b-button-group class="mx-1" v-if='!isFirst'>
-                    <b-button @click="changeBeforePage">&lsaquo;</b-button>
+                    <b-button variant="info" @click="changeBeforePage">&lsaquo;</b-button>
                 </b-button-group>
                 <b-button-group class="mx-1" v-if='isFirst' >
                     <b-button @click="modal = false">Cancelar</b-button>
                 </b-button-group>
                 <b-button-group class="mx-12" v-if='!isLast'>
-                    <b-button  @click="changeNextPage">&rsaquo;</b-button>
+                    <b-button variant="info" @click="changeNextPage">&rsaquo;</b-button>
                 </b-button-group>
                 <b-button-group class="mx-12" v-if='isLast'>
-                    <b-button  @click="sendData">Terminar</b-button>
+                    <b-button variant="outline-success" @click="sendData">Terminar</b-button>
                 </b-button-group>
             </b-button-toolbar>
           </b-col>
@@ -316,6 +316,8 @@
   
 </template>
 <script>
+import axios from 'axios'
+import {URL_API} from "../constants/Constants";
 export default {
     props: {
         id:{
@@ -338,114 +340,141 @@ export default {
             fields: ['tipo', 'si', 'no'],
             items: [
                 {
-                    tipo: 'Nivel de aceite de motor',
-                    selected: '',
+                    "key": 'n_motor',
+                    "tipo": 'Nivel de aceite de motor',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Nivel de aceite trasmision',
-                    selected: '',
+                    "key": 'n_trasmision',
+                    "tipo": 'Nivel de aceite trasmision',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Nivel de agua radiador',
-                    selected: '',
+                    "key": 'n_radiador',
+                    "tipo": 'Nivel de agua radiador',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Nivel de liquido de frenos',
-                    selected: '',
+                    "key": 'n_frenos',
+                    "tipo": 'Nivel de liquido de frenos',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Nivel de aceite powe',
-                    selected: '',
+                    "key": 'n_power',
+                    "tipo": 'Nivel de aceite power',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Nivel de agua parabrisas',
-                    selected: '',
+                    "key": 'n_parabrisas',
+                    "tipo": 'Nivel de agua parabrisas',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Fugas de agua',
-                    selected: '',
+                    "key": 'f_agua',
+                    "tipo": 'Fugas de agua',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Fugas de aceite',
-                    selected: '',
+                    "key": 'f_aceite',
+                    "tipo": 'Fugas de aceite',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Revision de llantas',
-                    selected: '',
+                    "key": 'r_llantas',
+                    "tipo": 'Revision de llantas',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Revision de alineacion',
-                    selected: '',
+                    "key": 'r_alineacion',
+                    "tipo": 'Revision de alineacion',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Revision de luces',
-                    selected: '',
+                    "key": 'r_luces',
+                    "tipo": 'Revision de luces',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Revision direccionales',
-                    selected: '',
+                    "key": 'r_direccionales',
+                    "tipo": 'Revision direccionales',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Revision limpiaparabrisas',
-                    selected: '',
+                    "key": 'r_limpiaparabrisas',
+                    "tipo": 'Revision limpiaparabrisas',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Revision copas',
-                    selected: '',
+                    "key": 'r_copas',
+                    "tipo": 'Revision copas',
+                    "selected": '',
                 }
             ],
             items2: [
                 {
-                    tipo: 'Polvaderas',
-                    selected: '',
+                    "key": 'polvaderas',
+                    "tipo": 'Polvaderas',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Tapon de Gasolina',
-                    selected: '',
+                    "key": 'tapon_gasolina',
+                    "tipo": 'Tapon de Gasolina',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Extra',
-                    selected: '',
+                    "key": 'extra',
+                    "tipo": 'Extra',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Gato',
-                    selected: '',
+                    "key": 'gato',
+                    "tipo": 'Gato',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Cruceta',
-                    selected: '',
+                    "key": 'cruceta',
+                    "tipo": 'Cruceta',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Accesorios Cajuela',
-                    selected: '',
+                    "key": 'a_cajuela',
+                    "tipo": 'Accesorios Cajuela',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Parabrisas',
-                    selected: '',
+                    "key": 'parabrisas',
+                    "tipo": 'Parabrisas',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Tapetes',
-                    selected: '',
+                    "key": 'tapetes',
+                    "tipo": 'Tapetes',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Licencia Chofer',
-                    selected: '',
+                    "key": 'l_chofer',
+                    "tipo": 'Licencia Chofer',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Copia del seguro',
-                    selected: '',
+                    "key": 'c_seguro',
+                    "tipo": 'Copia del seguro',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Tarjeta de circulacion',
-                    selected: '',
+                    "key": 't_circulacion',
+                    "tipo": 'Tarjeta de circulacion',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Limpieza interior',
-                    selected: '',
+                    "key": 'l_interior',
+                    "tipo": 'Limpieza interior',
+                    "selected": '',
                 },
                 {
-                    tipo: 'Limpieza exterior',
-                    selected: '',
+                    "key": 'l_exterior',
+                    "tipo": 'Limpieza exterior',
+                    "selected": '',
                 }
             ],
             
@@ -459,13 +488,13 @@ export default {
             isLast: false,
             data:{
                 kilometraje: '',
-                incetivos: '0',
+                incentivos: '0',
                 ganancias_totales: '0',
                 efectivo: '0',
                 horas_conectado: '0',
                 depositos_bancarios: '0',
                 renta: '0',
-                pedientes: '0',
+                pendientes: '0',
                 multas: '0',
                 choques: '0',
                 total: '0',
@@ -494,16 +523,24 @@ export default {
                 this.marcarPage = false;
                 this.finPage = false;
             }else if(this.page == 2) {
-                this.informacionPage = false;
-                this.fotografiasPage = false;
-                this.marcarPage = true;
-                this.finPage = false;
+                if(this.kilometrajestate) {
+                    this.informacionPage = false;
+                    this.fotografiasPage = false;
+                    this.marcarPage = true;
+                    this.finPage = false;
+                }else{
+                    this.page--;
+                }
             }else if(this.page == 3) {
-                this.informacionPage = false;
-                this.fotografiasPage = false;
-                this.marcarPage = false;
-                this.finPage = true;
-                this.isLast = true;
+                if(this.checkliststate) {
+                    this.informacionPage = false;
+                    this.fotografiasPage = false;
+                    this.marcarPage = false;
+                    this.finPage = true;
+                    this.isLast = true;
+                }else{
+                    this.page--;
+                }
             }
         },
         changeBeforePage() {
@@ -607,10 +644,32 @@ export default {
             reader.readAsDataURL(event.target.files[0]);
         },
         sendData() {
-            let formData = new FormData();
-            formData.append('fotos', this.fotos);
-            formData.append('checklist', Array.prototype.concat(this.items, this.items2));
-            formData.append('data', this.data);
+            if(this.incentivostate && this.gananciasstate && this.efectivostate && this.horasstate && this.depositostate && 
+            this.rentastate && this.pendientesstate && this.multasstate && this.choquesstate && this.totalstate && this.pendientestate) {
+                let formData = new FormData();
+                for(let f in this.fotos) {
+                    if(this.fotos[f] !== null) {
+                        formData.append(f, this.fotos[f]);                   
+                    }
+                }
+                formData.append('checklist', JSON.stringify(Array.prototype.concat(this.items, this.items2)));
+                formData.append('data', JSON.stringify(this.data));
+                formData.append('idvehiculo', JSON.stringify(this.id));
+                axios.post(URL_API + 'revisiones/add' , 
+                    formData,
+                    {
+                        headers: 
+                        {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then((response) => {
+                    console.log(response.data);
+                    
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
         }
     },
     computed: {
@@ -618,7 +677,7 @@ export default {
             return this.data.kilometraje.length > 0;
         },
         incentivostate() {
-            return this.data.incetivos.length > 0;
+            return this.data.incentivos.length > 0;
         },
         gananciasstate() {
             return this.data.ganancias_totales.length > 0;
@@ -636,7 +695,7 @@ export default {
             return this.data.renta.length > 0;
         },
         pendientesstate() {
-            return this.data.pedientes.length > 0;
+            return this.data.pendientes.length > 0;
         },
         multasstate() {
             return this.data.multas.length > 0;
@@ -649,6 +708,16 @@ export default {
         },
         pendientestate() {
             return this.data.pendiente.length > 0;
+        },
+        checkliststate() {
+            var allSelected = true;
+            var data = Array.prototype.concat(this.items, this.items2);
+            data.forEach(element => {
+                if(element.selected.length == 0) {
+                    allSelected = false;
+                }
+            });
+            return allSelected;
         }
 
     }
