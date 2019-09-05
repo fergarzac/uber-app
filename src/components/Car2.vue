@@ -1,9 +1,10 @@
 <template>
     <b-card
     :title="titulo"
-    :img-src="img"
+    :img-src="perfil"
     img-alt="Image"
     img-top
+    img-height="250px"
     tag="article"
     style="max-width: 20rem;"
     border-variant="dark"
@@ -326,7 +327,7 @@ export default {
         },
         img:{
             type: String,
-            default: 'https://picsum.photos/600/300/?image=25'
+            default: 'https://via.placeholder.com/600/1'
         },
         titulo:{
             type: String
@@ -510,7 +511,8 @@ export default {
                 fotointeriorfrente: null,
                 fotointeriortrasero: null,
                 fototablero: null
-            }
+            },
+            perfil: ''
         }
     },
     methods: {
@@ -720,6 +722,19 @@ export default {
             return allSelected;
         }
 
-    }
+    },
+    created: function() {
+        if(this.img != null && this.img.length>0){
+            var name = this.img.split('.');
+            axios.get(URL_API + 'img/' + name[0]).then((response) => {
+                this.perfil = URL_API + 'img/' + name[0];
+           }).catch((error) => {
+                this.perfil = 'https://via.placeholder.com/600/1';
+          });
+            
+        }else {
+            this.perfil = 'https://via.placeholder.com/600/1';
+        }
+    },
 }
 </script>

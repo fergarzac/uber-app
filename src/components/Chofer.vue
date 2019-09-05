@@ -3,7 +3,7 @@
     :title="titulo"
     :img-src="perfil"
     img-alt="Image"
-    img-height ='150px'
+    img-height ='250px'
     tag="article"
     border-variant="dark"
     class="mb-2"
@@ -18,6 +18,7 @@
 </template>
 <script>
 import {URL_API} from "../constants/Constants";
+import axios from 'axios'
 export default {
     props: {
         id:{
@@ -42,9 +43,14 @@ export default {
     created: function() {
         if(this.img != null && this.img.length>0){
             var name = this.img.split('.');
-            this.perfil = URL_API + 'img/' + name[0];
+            axios.get(URL_API + 'img/' + name[0]).then((response) => {
+                this.perfil = URL_API + 'img/' + name[0];
+           }).catch((error) => {
+                this.perfil = 'https://via.placeholder.com/600/4';
+          });
+            
         }else {
-            this.perfil = 'https://picsum.photos/600/300/?image=25';
+            this.perfil = 'https://via.placeholder.com/600/4';
         }
     },
     

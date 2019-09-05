@@ -20,63 +20,47 @@
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
                   tbody-classes="list"
-                  :data="tableData">
+                  :data="data">
         <template slot="columns">
-          <th>Nombre</th>
-          <th>Vehiculo</th>
-          <th>Antiguedad</th>
-          <th>Ingresos</th>
-          <th>Otros</th>
+          <th>Fecha</th>
+          <th>Imagenes</th>
+          <th>Revision</th>
           <th></th>
         </template>
 
         <template slot-scope="{row}">
           <th scope="row">
-            <div class="media align-items-center">
-              <a href="#" class="avatar rounded-circle mr-3">
-                <img alt="Image placeholder" :src="row.img">
-              </a>
-              <div class="media-body">
-                <span class="name mb-0 text-sm">{{row.title}}</span>
-              </div>
-            </div>
+            {{row.semana}}
           </th>
-          <td class="budget">
-            {{row.budget}}
-          </td>
-          <td>
-            <badge class="badge-dot mr-4" :type="row.statusType">
-              <i :class="`bg-${row.statusType}`"></i>
-              <span class="status">{{row.status}}</span>
-            </badge>
-          </td>
           <td>
             <div class="avatar-group">
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Frente" v-b-tooltip.hover title="Frente">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fotofrente !== '' && JSON.parse(row.rutas_imagenes).fotofrente !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fotofrente.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Romina Hadid">
-                <img alt="Image placeholder" src="img/theme/team-2-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Costado derecho" v-b-tooltip.hover title="Costado derecho" >
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).costadoderecho !== '' && JSON.parse(row.rutas_imagenes).costadoderecho !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).costadoderecho.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Alexander Smith">
-                <img alt="Image placeholder" src="img/theme/team-3-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Costado izquierdo" v-b-tooltip.hover title="Costado izquierdo">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).costadoizquierdo !== '' && JSON.parse(row.rutas_imagenes).costadoizquierdo !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).costadoizquierdo.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Jessica Doe">
-                <img alt="Image placeholder" src="img/theme/team-4-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Motor" v-b-tooltip.hover title="Motor" >
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fotomotor !== '' && JSON.parse(row.rutas_imagenes).fotomotor !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fotomotor.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Trasera" v-b-tooltip.hover title="Trasera">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fototrasera !== '' && JSON.parse(row.rutas_imagenes).fototrasera !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fototrasera.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Romina Hadid">
-                <img alt="Image placeholder" src="img/theme/team-2-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Interior frente" v-b-tooltip.hover title="Interior frente">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fotointeriorfrente !== '' && JSON.parse(row.rutas_imagenes).fotointeriorfrente !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fotointeriorfrente.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Alexander Smith">
-                <img alt="Image placeholder" src="img/theme/team-3-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Interior trasero" v-b-tooltip.hover title="Interior trasero">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fotointeriortrasero !== '' && JSON.parse(row.rutas_imagenes).fotointeriortrasero !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fotointeriortrasero.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Jessica Doe">
-                <img alt="Image placeholder" src="img/theme/team-4-800x800.jpg">
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Cajuela" v-b-tooltip.hover title="Cajuela">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fotocajuela !== '' && JSON.parse(row.rutas_imagenes).fotocajuela !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fotocajuela.split('.')[0] : 'https://via.placeholder.com/250'">
               </a>
-              
+              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Tablero" v-b-tooltip.hover title="Tablero">
+                <img height="36" width="36" alt="Image placeholder" :src="JSON.parse(row.rutas_imagenes).fototablero !== '' && JSON.parse(row.rutas_imagenes).fototablero !== undefined ? url +'img/'+ JSON.parse(row.rutas_imagenes).fototablero.split('.')[0] : 'https://via.placeholder.com/250'">
+              </a>
             </div>
           </td>
 
@@ -96,13 +80,12 @@
             <base-dropdown class="dropdown"
                            position="right">
               <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
+                <i class="ni ni-bold-down"></i>
+                
               </a>
 
               <template>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" target="_blank" :href="urlApi + 'revisiones/descargar/'+row.idrevision"><i class="ni ni-cloud-download-95"></i> Descargar</a>
               </template>
             </base-dropdown>
           </td>
@@ -114,66 +97,31 @@
 
     <div class="card-footer d-flex justify-content-end"
          :class="type === 'dark' ? 'bg-transparent': ''">
-      <base-pagination total="30"></base-pagination>
+      <base-pagination :total="30"></base-pagination>
     </div>
 
   </div>
 </template>
 <script>
+  import axios from 'axios'
+  import {URL_API} from "../../constants/Constants";
   export default {
     name: 'projects-table',
     props: {
       type: {
         type: String
       },
-      title: String
+      title: String,
+      data: Array,
+      url: String
     },
     data() {
       return {
-        tableData: [],
-        tableData1: [
-          {
-            img: 'img/theme/bootstrap.jpg',
-            title: 'Argon Design System',
-            budget: '$2500 USD',
-            status: 'pending',
-            statusType: 'warning',
-            completion: 60
-          },
-          {
-            img: 'img/theme/angular.jpg',
-            title: 'Angular Now UI Kit PRO',
-            budget: '$1800 USD',
-            status: 'completed',
-            statusType: 'success',
-            completion: 100
-          },
-          {
-            img: 'img/theme/sketch.jpg',
-            title: 'Black Dashboard',
-            budget: '$3150 USD',
-            status: 'delayed',
-            statusType: 'danger',
-            completion: 72
-          },
-          {
-            img: 'img/theme/react.jpg',
-            title: 'React Material Dashboard',
-            budget: '$4400 USD',
-            status: 'on schedule',
-            statusType: 'info',
-            completion: 90
-          },
-          {
-            img: 'img/theme/vue.jpg',
-            title: 'Vue Paper UI Kit PRO',
-            budget: '$2200 USD',
-            status: 'completed',
-            statusType: 'success',
-            completion: 100
-          }
-        ]
+        urlApi: URL_API
       }
+    },
+    methods: {
+
     }
   }
 </script>

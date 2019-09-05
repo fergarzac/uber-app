@@ -6,7 +6,7 @@
                 <div class="col-xl-3 col-lg-6">
                     <stats-card title="Flotilla"
                                 type="gradient-red"
-                                sub-title="20"
+                                :sub-title="total_flotilla"
                                 icon="ni ni-bus-front-12"
                                 class="mb-4 mb-xl-0"
                     >
@@ -15,7 +15,7 @@
                 <div class="col-xl-3 col-lg-6">
                     <stats-card title="Choferes"
                                 type="gradient-orange"
-                                sub-title="10"
+                                :sub-title="total_choferes"
                                 icon="ni ni-chart-pie-35"
                                 class="mb-4 mb-xl-0"
                     >
@@ -25,7 +25,7 @@
                 <div class="col-xl-3 col-lg-6">
                     <stats-card title="Ingresos"
                                 type="gradient-green"
-                                sub-title="$ 924.00"
+                                :sub-title="total_ganancias"
                                 icon="ni ni-money-coins"
                                 class="mb-4 mb-xl-0"
                     >
@@ -140,6 +140,9 @@
     },
     data() {
       return {
+        total_flotilla: '0',
+        total_choferes: '0',
+        total_ganancias: '$ 0.00',
         bigLineChart: {
           allData: [
             [0, 20, 10, 30, 15, 40, 20, 60, 60],
@@ -176,10 +179,47 @@
         };
         this.bigLineChart.chartData = chartData;
         this.bigLineChart.activeIndex = index;
-      }
+      },
+      getChoferes() {
+          axios.get(URL_API + 'choferes/all').then((response) => {
+              this.total_choferes = ''+ response.data.length;
+           }).catch(function (error) {
+            console.log(error);
+          });
+      },
+      getVehiculos() {
+          axios.get(URL_API + 'vehiculos/all').then((response) => {
+              this.total_flotilla = ''+ response.data.length;
+           }).catch(function (error) {
+              console.log(error);
+          });
+      },
+      getIngresos() {
+        var d = new Date();
+        let formData = new FormData();
+        formData.append('mes', (d.getMonth() + 1));
+        axios.post(URL_API + 'revisiones/ingresos', 
+        formData,
+          {
+            headers: 
+            {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then((response) => {
+            var ganancias = response.data['ganancias'];
+            var centavos = response.data['ganancias'].split('.')[1];
+            this.total_ganancias = '$ ' + ganancias + (ganancias.includes('.') ? (centavos.length >= 2 ? '' : '0'): '.00')
+            console.log(response.data);
+           }).catch(function (error) {
+              console.log(error);
+          });
+      },
     },
     mounted() {
       this.initBigChart(0);
+      this.getChoferes();
+      this.getVehiculos();
+      this.getIngresos();
     }
   };
 </script>

@@ -17,22 +17,22 @@
         <template slot="columns">
           <th>Nombre</th>
           <th>Dirección</th>
-          <th>Telefono</th>
+          <th>Telefono(s)</th>
           <th>No. Licencia</th>
         </template>
 
         <template slot-scope="{row}">
           <th scope="row">
-            {{row.page}}
+            {{row.nombre}}
           </th>
           <td>
-            {{row.visitors}}
+            {{row.direccion}}
           </td>
           <td>
-            {{row.unique}}
+            {{row.telefono_1 + (row.telefono_2 !== '' ? ' / ' + row.telefono_2 : '')}}
           </td>
           <td>
-            {{row.bounceRate}}
+            {{row.no_licencia}}
           </td>
         </template>
 
@@ -42,43 +42,27 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
+  import {URL_API} from "../../constants/Constants";
   export default {
     name: 'page-visits-table',
     data() {
       return {
-        tableData: [
-          {
-            page: 'Fernando',
-            visitors: 'Mexicali',
-            unique: '6131118512',
-            bounceRate: '34234R'
-          },
-          {
-            page: 'Armando',
-            visitors: 'Mexicali',
-            unique: '6131118512',
-            bounceRate: '34234R'
-          },
-          {
-            page: 'Jorge',
-            visitors: 'Ensenada',
-            unique: '6131118512',
-            bounceRate: '34234R'
-          },
-          {
-            page: 'Jose',
-            visitors: 'Tijuana',
-            unique: '6131118512',
-            bounceRate: '34234R'
-          },
-          {
-            page: 'Miguel',
-            visitors: 'Constitucion',
-            unique: '6131118512',
-            bounceRate: '34234R'
-          }
-        ]
+        tableData: []
       }
+    },
+    methods: {
+      getChoferes() {
+          axios.get(URL_API + 'choferes/all').then((response) => {
+              console.log(response.data);
+              this.tableData = response.data;
+           }).catch(function (error) {
+            console.log(error);
+          });
+      },
+    },
+    beforeMount: function() {
+      this.getChoferes();
     }
   }
 </script>

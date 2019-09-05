@@ -29,14 +29,20 @@
                         <div class="card-body pt-0 pt-md-4">
                             <div class="row" style="margin-top:60px">
                                 <div class="col-md-6 offset-md-3">
-                                    <b-button style="width:100%" variant="outline-dark">Cambiar Foto</b-button>
-                                    <b-button style="width:100%" variant="outline-dark" onclick="document.getElementById('fotoperfil').click();">Tomar Foto</b-button>
-
+                                    <b-button style="width:100%" variant="outline-dark" onclick="document.getElementById('fotoperfil').click();">Cambiar Foto</b-button>
+                                    <b-button style="width:100%" variant="outline-dark" onclick="document.getElementById('fotoperfil_capture').click();">Tomar Foto</b-button>
                                     <b-form-file
-                                        capture="user"
                                         id="fotoperfil"
                                         ref="fotoperfil"
                                         v-model="fotoperfil"
+                                        accept="image/*"
+                                        style="display:none;"
+                                    ></b-form-file>
+                                    <b-form-file 
+                                        capture
+                                        id="fotoperfil_capture"
+                                        ref="fotoperfil_capture"
+                                        v-model="fotoperfil_capture"
                                         accept="image/*"
                                         style="display:none;"
                                     ></b-form-file>
@@ -72,7 +78,7 @@
                                     <h3 class="mb-0">Chofer</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">Editar</a>
+                                    <!-- <a href="#!" class="btn btn-sm btn-primary">Editar</a> -->
                                 </div>
                             </div>
                         </div>
@@ -113,7 +119,7 @@
                                             <b>Referencia: </b> {{model.referencia_1}}
                                         </b-col>
                                         <b-col cols="12">
-                                            <b>Referencia: </b> <b-link to="chofer" >{{model.referencia_2}}</b-link>
+                                            <b>Referencia: </b>{{model.referencia_2}}
                                         </b-col>
                                         <b-col cols="12">
                                             <b>ID Uber: </b> <b-link to="chofer" >{{model.id_uber}}</b-link>
@@ -156,12 +162,13 @@
           iduber: ''
         },
         idChofer: '',
-        perfil: ''
+        perfil: '',
+        fotoperfil: '',
+        fotoperfil_capture: ''
       }
     },
     methods: {
         getData() {
-            console.log(this.idChofer)
             axios.post(URL_API + 'choferes/id', 
             {
                 'id' : this.idChofer
@@ -174,9 +181,15 @@
             ).then((response) => {
                 if(response.data.status == 1) {
                     this.model = response.data.data;
-                    console.log(this.model);
-                    this.perfil = this.model.foto_id !== null && this.model.foto_id !== '' ? URL_API +'img/' + this.model.foto_id.split('.')[0] : 'https://thispersondoesnotexist.com/';
-                    console.log(this.perfil);
+                    if(this.model.foto_id !== null && this.model.foto_id !== '') {
+                        axios.get(URL_API + 'img/' + this.model.foto_id.split('.')[0]).then((response) => {
+                            this.perfil = URL_API + 'img/' + this.model.foto_id.split('.')[0];
+                        }).catch((error) => {
+                            this.perfil = 'https://via.placeholder.com/600/1';
+                        });
+                    }else{
+                        this.perfil = 'https://via.placeholder.com/600/1';
+                    }
                 }
            }).catch(function (error) {
             console.log(error);

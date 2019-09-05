@@ -9,7 +9,7 @@
                 <b-row>
                      <div class="col-sm-12 col-md-2 order-xl-1">
                          <b-col cols="12">
-                            <b-img src="https://picsum.photos/125/125/?image=58" rounded alt="Rounded image"></b-img>
+                            <b-img style="width:150px" src="https://via.placeholder.com/600/1" id="foto_perfil" rounded alt="Rounded image"></b-img>
                         </b-col>
                         <hr />
                         <b-col cols="12">
@@ -124,7 +124,7 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
-                                    <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" />
+                                    <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" v-bind:img="car.perfil" />
                                 </div>
                                 <div class="col-lg-12 col-md-12">
                                     <b-pagination
@@ -179,12 +179,19 @@
         serie: '',
         placas: '',
         km: '',
-        precio: ''
+        precio: '',
+        urlApi: URL_API
       }
     },
     methods: {
       changeFoto(event) {
-          this.fotoperfil = event.target.files;
+          this.fotoperfil = event.target.files[0];
+            var reader = new FileReader();
+            var img = document.getElementById('foto_perfil');
+            reader.onloadend = function() {
+                img.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
       },
       enviarDatos() {
           let formData = new FormData();

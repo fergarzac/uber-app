@@ -8,7 +8,7 @@
                 <base-dropdown class="nav-link pr-0">
                     <div class="media align-items-center" slot="title">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
+                  <img alt="Image placeholder" src="https://via.placeholder.com/150">
                 </span>
                         <div class="media-body ml-2 d-none d-lg-block">
                             <span class="mb-0 text-sm  font-weight-bold">Alfonso Meza</span>
@@ -19,10 +19,10 @@
                         <div class=" dropdown-header noti-title">
                             <h6 class="text-overflow m-0">Bienvenido!</h6>
                         </div>
-                        <router-link to="/profile" class="dropdown-item">
+                        <!-- <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
                             <span>Configuracion</span>
-                        </router-link>
+                        </router-link> -->
                         <div class="dropdown-divider"></div>
                         <router-link to="/" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
