@@ -44,7 +44,11 @@ export default {
         if(this.img != null && this.img.length>0){
             var name = this.img.split('.');
             axios.get(URL_API + 'img/' + name[0]).then((response) => {
-                this.perfil = URL_API + 'img/' + name[0];
+                if(response.data['status'] != undefined) {
+                    this.perfil = 'https://via.placeholder.com/600/4';
+                }else {
+                    this.perfil = URL_API + 'img/' + name[0];
+                }
            }).catch((error) => {
                 this.perfil = 'https://via.placeholder.com/600/4';
           });
