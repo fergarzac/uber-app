@@ -124,7 +124,7 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
-                                    <Car v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" v-bind:img="car.perfil" />
+                                    <Car v-bind:titulo="car.marca + ' '+car.linea +' '+ car.modelo" v-bind:placas="car.placas" v-bind:serie="car.serie" v-bind:id="car.idvehiculo" v-bind:img="car.perfil" />
                                 </div>
                                 <div class="col-lg-12 col-md-12">
                                     <b-pagination
@@ -229,7 +229,8 @@
             formData.append('version', this.version);
             formData.append('serie', this.serie);
             formData.append('placas', this.placas);
-
+            formData.append('precio', this.precio);
+            formData.append('idgrupo', this.$store.state.grupo);
             formData.append('factura', this.fileFactura);
             formData.append('tarjeta', this.fileTarjeta);
             formData.append('pedimento', this.filePedimento);
@@ -243,6 +244,7 @@
                     }
                 }
             ).then((response) => {
+                console.log(response.data);
                 if(response.data.status == 1) {
                     this.marca = '';
                     this.linea = '';
@@ -251,6 +253,7 @@
                     this.version = '';
                     this.serie = '';
                     this.placas = '';
+                    this.precio = '';
                     this.fileFactura = null;
                     this.fileTarjeta = null;
                     this.filePedimento = null;

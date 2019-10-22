@@ -23,34 +23,43 @@
 
                 </div>
                 <div class="col-xl-3 col-lg-6" v-if="seleccionado">
-                    <stats-card title="Flotilla"
-                                type="gradient-red"
-                                sub-title="20"
-                                icon="ni ni-bus-front-12"
-                                class="mb-4 mb-xl-0"
-                    >
-                    </stats-card>
-                </div>
-                <div class="col-xl-3 col-lg-6" v-if="seleccionado">
-                    <stats-card title="Choferes"
-                                type="gradient-orange"
-                                sub-title="10"
-                                icon="ni ni-chart-pie-35"
-                                class="mb-4 mb-xl-0"
-                    >
-
-                    </stats-card>
-                </div>
-                <div class="col-xl-3 col-lg-6" v-if="seleccionado">
-                    <stats-card title="Ingresos"
+                    <stats-card title="Ganancias"
                                 type="gradient-green"
-                                :sub-title="metricas.ganancias == undefined || metricas.ganancias == '' ? '$ 0.00' : '$ '+ metricas.ganancias"
-                                icon="ni ni-money-coins"
+                                :sub-title="metricas !== undefined ? (metricas.ganancias == undefined || metricas.ganancias == '' ? '$ 0.00' : '$ '+ metricas.ganancias):  '$ 0.00'"
+                                icon="ni ni-chart-bar-32"
                                 class="mb-4 mb-xl-0"
                     >
 
                     </stats-card>
 
+                </div>
+                <div class="col-xl-3 col-lg-6" v-if="seleccionado">
+                    <stats-card title="Efectivo"
+                                type="gradient-orange"
+                                :sub-title="metricas !== undefined ? (metricas.efectivo == undefined || metricas.efectivo == '' ? '$ 0.00' : '$ '+ metricas.efectivo):  '$ 0.00'"
+                                icon="ni  ni-money-coins"
+                                class="mb-4 mb-xl-0"
+                    >
+
+                    </stats-card>
+                </div>
+                <div class="col-xl-3 col-lg-6" v-if="seleccionado">
+                    <stats-card title="Deposito"
+                                type="gradient-red"
+                                :sub-title="metricas !== undefined ? (metricas.deposito_bancario == undefined || metricas.deposito_bancario == '' ? '$ 0.00' : '$ '+ metricas.deposito_bancario):  '$ 0.00'"
+                                icon="ni ni-credit-card"
+                                class="mb-4 mb-xl-0"
+                    >
+                    </stats-card>
+                </div>
+                <div class="col-xl-3 col-lg-6" v-if="seleccionado">
+                    <stats-card title="Multas"
+                                type="gradient-info"
+                                :sub-title="metricas !== undefined ? (metricas.multas == undefined || metricas.multas == '' ? '$ 0.00' : '$ '+ metricas.multas):  '$ 0.00'"
+                                icon="ni ni-badge"
+                                class="mb-4 mb-xl-0"
+                    >
+                    </stats-card>
                 </div>
                 <!--
                 <div class="col-xl-3 col-lg-6" v-if="seleccionado">
@@ -113,9 +122,10 @@
                     }
                 }
             ).then((response) => {
+                console.log(response.data);
                 this.dataTable = response.data['info'];
                 this.metricas = response.data['metricas'];
-                console.log(response.data);
+                
             }).catch(function (error) {
                 console.log(error);
             });

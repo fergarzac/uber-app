@@ -28,7 +28,7 @@
                         <card shadow type="secondary">
                             <b-row class="my-1">
                                 <b-col sm="12">
-                                    <b-form-input id="input-small" v-model="nombre" placeholder="Nombre" :state="nombrestate"></b-form-input>
+                                    <b-form-input id="input-small" maxlength="" v-model="nombre" placeholder="Nombre" :state="nombrestate"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
@@ -38,10 +38,10 @@
                             </b-row>
                             <b-row class="my-1">
                                 <b-col sm="6">
-                                    <b-form-input id="input-small" v-model="telefono1" placeholder="Telefono 1" :state="telefono1state"></b-form-input>
+                                    <b-form-input type="number"  id="input-small" v-model="telefono1" placeholder="Telefono 1" :state="telefono1state"></b-form-input>
                                 </b-col>
                                 <b-col sm="6">
-                                    <b-form-input id="input-small" v-model="telefono2" placeholder="Telefono 2" :state="telefono2state"></b-form-input>
+                                    <b-form-input type="number" id="input-small" v-model="telefono2" placeholder="Telefono 2" :state="telefono2state" ></b-form-input>
                                 </b-col>
                                 
                             </b-row>
@@ -50,7 +50,7 @@
                                     <b-form-input id="input-small" v-model="licencia" placeholder="No.Licencia" :state="licenciastate"></b-form-input>
                                 </b-col>
                                 <b-col sm="6">
-                                <b-form-input id="input-small" v-model="fianza" placeholder="Monto Fianza" :state="fianzastate"></b-form-input>
+                                <b-form-input id="input-small" tyoe v-model="fianza" placeholder="Monto Fianza" :state="fianzastate" @keypress="isNumber($event)"></b-form-input>
                                 </b-col>
                             </b-row>
                             <b-row class="my-1">
@@ -96,10 +96,17 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="chofer in buscar" :key="chofer.idchofer">
-                                    <Chofer v-bind:titulo="chofer.nombre" v-bind:id="chofer.idchofer" v-bind:img="chofer.foto_id" />
+                                    <Chofer v-bind:titulo="chofer.nombre" v-bind:id="chofer.idchofer" v-bind:img="chofer.foto_perfil" />
                                 </div>
                             </div>
                         </div>
+                        <b-modal v-model="alerta" centered hide-footer title="Alerta">
+                            <div class="d-block text-center">
+                                <h3>{{messageAlert}}</h3>
+                            </div>
+                            <b-button class="mt-3" variant="primary" block @click="alerta = false">Ok</b-button>
+                                            
+                        </b-modal>
                     </div>
                 </div>
             </div>
@@ -112,7 +119,7 @@
   import Car from '@/components/Car';
   import axios from 'axios'
   import {ID_COOKIE, URL_API} from "../constants/Constants";
-import { URL } from 'url';
+ 
   export default {
     beforeRouteEnter(to, from, next) {
         next((vm) => {
@@ -129,6 +136,8 @@ import { URL } from 'url';
     },
     data() {
       return {
+        alerta: false,
+        messageAlert: '',
         currentPage: 1,
         perPage:8,
         fotoperfil: null,
@@ -154,6 +163,15 @@ import { URL } from 'url';
       }
     },
     methods: {
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();;
+            } else {
+                return true;
+            }
+        },
       changeFoto(event) {
         this.fotoperfil = event.target.files[0];
         var reader = new FileReader();
@@ -174,46 +192,59 @@ import { URL } from 'url';
           }
       },
       agregarChofer() {
-            let formData = new FormData();
-            formData.append('fotoperfil', this.fotoperfil);
-            formData.append('nombre', this.nombre);
-            formData.append('direccion', this.direccion);
-            formData.append('telefono_1', this.telefono1);
-            formData.append('telefono_2', this.telefono2);
-            formData.append('no_licencia', this.licencia);
-            formData.append('monto_fianza', this.fianza);
-            formData.append('referencia_1', this.referencia1);
-            formData.append('referencia_2', this.referencia2);
-            formData.append('id_uber', this.iduber);
-            axios.post(URL_API + 'choferes/add' , 
-                formData,
-                {
-                    headers: 
+            if(this.nombrestate && this.direccionstate && this.telefono1state && this.telefono2state && this.licenciastate && this.referencia1state && this.referencia2state && this.fianzastate) {
+                let formData = new FormData();
+                formData.append('fotoperfil', this.fotoperfil);
+                formData.append('nombre', this.nombre);
+                formData.append('direccion', this.direccion);
+                formData.append('telefono_1', this.telefono1);
+                formData.append('telefono_2', this.telefono2);
+                formData.append('no_licencia', this.licencia);
+                formData.append('monto_fianza', this.fianza);
+                formData.append('referencia_1', this.referencia1);
+                formData.append('referencia_2', this.referencia2);
+                formData.append('id_uber', this.iduber);
+                axios.post(URL_API + 'choferes/add' , 
+                    formData,
                     {
-                        'Content-Type': 'multipart/form-data'
+                        headers: 
+                        {
+                            'Content-Type': 'multipart/form-data'
+                        }
                     }
+                ).then((response) => {
+                    console.log(response.data);
+                    if(response.data.status == 1) {
+                        this.nombre = '',
+                        this.direccion = '',
+                        this.telefono1 = '',
+                        this.telefono2 = '',
+                        this.referencia1 = '',
+                        this.referencia2 = '',
+                        this.fianza = '',
+                        this.licencia = '',
+                        this.iduber = ''
+                        this.getChoferes();
+                        this.messageAlert = 'Chofer agregado.';
+                        this.alerta = true;
+                    }else {
+                        this.agregarModal = true;
+                        this.messageAlert = 'Error al agregar al chofer.';
+                        this.alerta = true;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }else {
+                var mensaje = "Verifica que todos los campos esten llenos";
+                if(!this.telefono1state) {
+                    mensaje = "Falta llenar el telefono 1 o tiene más de 10 digitos";
+                }else if(!this.telefono2state) {
+                    mensaje = "Falta llenar el telefono 2 o tiene más de 10 digitos";
                 }
-            ).then((response) => {
-                console.log(response.data);
-                if(response.data.status == 1) {
-                    this.nombre = '',
-                    this.direccion = '',
-                    this.telefono1 = '',
-                    this.telefono2 = '',
-                    this.referencia1 = '',
-                    this.referencia2 = '',
-                    this.fianza = '',
-                    this.licencia = '',
-                    this.iduber = ''
-                    this.getChoferes();
-                    alert('Agregado');
-                }else {
-                    this.agregarModal = true;
-                    alert('Error');
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
+                this.messageAlert = mensaje;
+                this.alerta = true;
+            }
       },
       getChoferes() {
           axios.get(URL_API + 'choferes/all').then((response) => {
@@ -243,10 +274,10 @@ import { URL } from 'url';
         return this.direccion.length > 0 ? true : false
       },
       telefono1state() {
-        return this.telefono1.length > 0 ? true : false
+        return this.telefono1.length > 0 && this.telefono1.length < 11 ? true : false
       },
       telefono2state() {
-        return this.telefono2.length > 0 ? true : false
+        return this.telefono2.length > 0 && this.telefono2.length < 11 ? true : false
       },
       referencia1state() {
         return this.referencia1.length > 0 ? true : false

@@ -11,7 +11,9 @@
     class="mb-2"
   >
     <b-card-text>
-      {{descripcion}}
+      Placas: {{placas}} 
+      <br>
+      Serie: {{serie}}
     </b-card-text>
 
     <b-button variant="outline-dark" :to="{ name: 'perfil-car', params: { carId: id } }">Ver</b-button>
@@ -32,7 +34,10 @@ export default {
         titulo:{
             type: String
         },
-        descripcion:{
+        placas:{
+            type: String
+        },
+        serie:{
             type: String
         }
     },

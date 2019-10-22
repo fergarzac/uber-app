@@ -7,7 +7,7 @@
                 <span class="navbar-toggler-icon"></span>
             </navbar-toggle-button>
             <router-link class="navbar-brand" to="/">
-                Uber Manager
+                Uber Fleet Manager
             </router-link>
 
             <slot name="mobile-right">
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-6 collapse-brand">
                             <router-link to="/">
-                                Uber Manager
+                                Uber Fleet Manager
                             </router-link>
                         </div>
                         <div class="col-6 collapse-close">

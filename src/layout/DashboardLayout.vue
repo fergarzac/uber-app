@@ -2,8 +2,8 @@
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
     <side-bar
       :background-color="sidebarBackground"
-      short-title="Argon"
-      title="Argon"
+      short-title="Uber"
+      title="Uber Fleet"
     >
       <template slot="links">
         <sidebar-item
@@ -14,6 +14,7 @@
           }"
         />
         <h6 class="navbar-heading text-muted" style="margin-left:15px">Administración</h6>
+        <sidebar-item v-if="lider" :link="{name: 'Usuarios', icon: 'ni ni-circle-08 text-blue', path: '/usuarios'}"/>
         <sidebar-item :link="{name: 'Flotilla', icon: 'ni ni-bus-front-12 text-orange', path: '/flotilla'}"/>
         <sidebar-item :link="{name: 'Choferes', icon: 'ni ni-single-02 text-black', path: '/choferes'}"/>
         <sidebar-item :link="{name: 'Reportes', icon: 'ni ni-bullet-list-67 text-red', path: '/reportes'}"/>
@@ -47,7 +48,8 @@
     },
     data() {
       return {
-        sidebarBackground: 'vue' //vue|blue|orange|green|red|primary
+        sidebarBackground: 'vue', //vue|blue|orange|green|red|primary
+        lider: false
       };
     },
     methods: {
@@ -56,6 +58,9 @@
           this.$sidebar.displaySidebar(false);
         }
       }
+    },
+    beforeMount() {
+      this.lider = this.$store.state.tipo == '1' || this.$store.state.tipo == '2' ? true: false;
     }
   };
 </script>

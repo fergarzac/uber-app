@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <div class="row icon-examples">
                                 <div class="col-lg-3 col-md-6" v-for="car in buscar" :key="car.name + car.idvehiculo">
-                                    <Car2 v-bind:titulo="car.marca + ' '+ car.modelo" v-bind:id="car.idvehiculo" v-bind:img="car.perfil" />
+                                    <Car2  v-bind:titulo="car.marca + ' '+car.linea + ' '+ car.modelo" v-bind:placas="car.placas" v-bind:serie="car.serie" v-bind:id="car.idvehiculo" v-bind:img="car.perfil" />
                                 </div>
                                 <div class="col-lg-12 col-md-12">
                                     <b-pagination

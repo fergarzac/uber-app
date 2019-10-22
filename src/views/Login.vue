@@ -36,13 +36,19 @@
                     <div class="col-6 text-right">
                         <router-link to="/register" class="text-light"><small></small></router-link>
                     </div>
+                    <b-modal v-model="alerta" centered hide-footer title="Alerta">
+                        <div class="d-block text-center">
+                            <h3>{{messageAlert}}</h3>
+                        </div>
+                        <b-button class="mt-3" variant="primary" block @click="alerta = false">Ok</b-button>
+                    </b-modal>
                 </div>
             </div>
         </div>
 </template>
 <script>
   import axios from 'axios'
-  import {ID_COOKIE, URL_API} from "../constants/Constants";
+  import {ID_COOKIE,ID_COOKIE_ENCRY, KEY, URL_API} from "../constants/Constants";
   export default {
     beforeRouteEnter(to, from, next) {
         next((vm) => {
@@ -54,6 +60,8 @@
     name: 'login',
     data() {
       return {
+        alerta: false,
+        messageAlert:'',
         model: {
           usuario: '',
           password: ''
@@ -76,11 +84,22 @@
             ).then((response) => {
                 console.log(response.data)
                 if(response.data.status == 1) {
+                    this.$store.commit('setId', response.data.data);
+                    this.$store.commit('setNombre', response.data.nombre);
+                    this.$store.commit('setGrupo', response.data.grupo);
+                    this.$store.commit('setTipo', response.data.tipo);
                     this.$cookie.set(ID_COOKIE, response.data.token, 1);
+                    var CryptoJS = require("crypto-js");
+                    var ciphertext = CryptoJS.AES.encrypt(JSON.stringify({'id':response.data.data, 'nombre':response.data.nombre, 'grupo': response.data.grupo, 'tipo': response.data.tipo}), KEY);
+                    this.$cookie.set(ID_COOKIE_ENCRY, ciphertext, 1);
                     this.$router.push('/dashboard');
+                }else{
+                    this.alerta = true;
+                    this.messageAlert = "Usuario o contraseña erroneos.";
                 }
             }).catch(function (error) {
-                console.log(error);
+                this.alerta = true;
+                this.messageAlert = "Ocurrio un error en la base de datos.";
             });
         }
     }

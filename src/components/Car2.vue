@@ -11,7 +11,9 @@
     class="mb-2"
   >
     <b-card-text>
-      {{descripcion}}
+      Placas: {{placas}} 
+      <br>
+      Serie: {{serie}}
     </b-card-text>
 
     <b-button variant="outline-dark"  @click="modal = !modal">Revisar</b-button>
@@ -159,7 +161,7 @@
                         label-for="input-1"
                         :state="kilometrajestate"
                     >
-                        <b-form-input id="input-1" v-model="data.kilometraje" placeholder="Kilometraje" :state="kilometrajestate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.kilometraje" placeholder="Kilometraje" :state="kilometrajestate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -190,25 +192,16 @@
                 </b-col>
             </b-row>
         </b-collapse>
-        <b-collapse v-model='finPage' id="collapapse-fotos" class="mt-2">
-            <h5>Para terminar</h5>
+        <b-collapse v-model='gananciasPage' id="collapapse-fotos" class="mt-2">
+            <h5>Ingresos</h5>
             <b-row>
-                <b-col cols="12" md="4">
-                    <b-form-group
-                        id="fieldset-1"
-                        label="Incentivos y otros pagos"
-                        label-for="input-1"
-                    >
-                        <b-form-input id="input-1" v-model="data.incentivos" :state="incentivostate" trim></b-form-input>
-                    </b-form-group>
-                </b-col>
                 <b-col cols="12" md="4">
                     <b-form-group
                         id="fieldset-1"
                         label="Ganancias totales de viajes"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.ganancias_totales" :state="gananciasstate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.ganancias_totales" :state="gananciasstate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -217,16 +210,7 @@
                         label="Efectivo recolectado"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.efectivo" :state="efectivostate" trim></b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="12" md="4">
-                    <b-form-group
-                        id="fieldset-1"
-                        label="Horas conectadas"
-                        label-for="input-1"
-                    >
-                        <b-form-input id="input-1" v-model="data.horas_conectado" :state="horasstate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.efectivo" :state="efectivostate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -235,7 +219,7 @@
                         label="Deposito bancario"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.depositos_bancarios" :state="depositostate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.depositos_bancarios" :state="depositostate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -244,7 +228,7 @@
                         label="Renta"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.renta" :state="rentastate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.renta" :state="rentastate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -253,16 +237,7 @@
                         label="Pendientes"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.pendientes" :state="pendientesstate" trim></b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="12" md="4">
-                    <b-form-group
-                        id="fieldset-1"
-                        label="Multas"
-                        label-for="input-1"
-                    >
-                        <b-form-input id="input-1" v-model="data.multas" :state="multasstate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.pendientes" :state="pendientesstate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -271,7 +246,7 @@
                         label="Choques"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.choques" :state="choquesstate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.choques" :state="choquesstate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -280,7 +255,7 @@
                         label="Total"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.total" :state="totalstate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.total" :state="totalstate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
@@ -289,8 +264,59 @@
                         label="Pendiente"
                         label-for="input-1"
                     >
-                        <b-form-input id="input-1" v-model="data.pendiente" :state="pendientestate" trim></b-form-input>
+                        <b-form-input id="input-1" v-model="data.pendiente" :state="pendientestate" trim @keypress="isNumber($event)"></b-form-input>
                     </b-form-group>
+                </b-col>
+                <b-col cols="12" md="4">
+                    <b-form-group
+                        id="fieldset-1"
+                        label="Semana"
+                        label-for="input-1"
+                    >
+                        <b-form-input id="input-1" v-model="data.revision_semana" type="date" :state="semanastate"></b-form-input>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+        </b-collapse>
+        <b-collapse v-model='finPage' id="collapapse-fotos" class="mt-2">
+            <h5>Para terminar, ingresa los gastos generados esta semana.</h5>
+            <b-row>
+                <b-col cols="12">
+                    <b-button variant="info" @click="agregarInput = true">Agregar</b-button>
+                </b-col>
+                <b-col cols="12" v-if="agregarInput">
+                    <b-row style="margin-bottom:15px">
+                        <b-col cols="12" md="4">
+                            <b-form-group
+                            id="fieldset-1"
+                            label="Concepto"
+                            label-for="input-1"
+                            >
+                                <b-form-input id="input-1" v-model="concepto_gasto" :state="conceptostate"></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <b-col cols="12" md="4">
+                            <b-form-group
+                            id="fieldset-1"
+                            label="Cantidad"
+                            label-for="input-1"
+                            >
+                                <b-form-input type="" id="input-1" v-model="cantidad_gasto" :state="cantidadstate" @keypress="isNumber($event)"></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <b-col cols="12" md="4">
+                            <b-button style="margin-top:25px" variant="primary" @click="agregarGasto">Aceptar</b-button>
+                        </b-col>
+                    </b-row>
+                </b-col>
+                <b-col cols="12" style="padding:20px" v-for="(gasto, index) in gastos" :key="index">
+                    <div style="width:70%;display:inline-block; font-weight:bold">
+                        {{gasto.concepto}} - {{gasto.cantidad}}
+                    </div>
+                    <div style="width:30%;display:inline-block;float:right">
+                        <b-button variant="danger" @click="quitarGasto(index)">X</b-button>
+                    </div>
+                    <hr>
                 </b-col>
             </b-row>
         </b-collapse>
@@ -313,6 +339,13 @@
           </b-col>
       </b-row>
     </b-modal>
+    <b-modal v-model="alerta" centered hide-footer title="Alerta">
+        <div class="d-block text-center">
+            <h3>{{messageAlert}}</h3>
+        </div>
+        <b-button class="mt-3" variant="primary" block @click="alerta = false">Ok</b-button>
+                        
+    </b-modal>
   </b-card>
   
 </template>
@@ -332,12 +365,20 @@ export default {
         titulo:{
             type: String
         },
-        descripcion:{
+        placas:{
+            type: String
+        },
+        serie:{
             type: String
         }
     },
     data(){
         return {
+            agregarInput:false,
+            concepto_gasto: '',
+            cantidad_gasto: '',
+            alerta: false,
+            messageAlert: '',
             fields: ['tipo', 'si', 'no'],
             items: [
                 {
@@ -486,6 +527,7 @@ export default {
             informacionPage: false,
             marcarPage: false,
             finPage: false,
+            gananciasPage: false,
             isLast: false,
             data:{
                 kilometraje: '',
@@ -500,6 +542,7 @@ export default {
                 choques: '0',
                 total: '0',
                 pendiente:'0',
+                revision_semana: ''
             },
             fotos: {
                 fotofrente: null,
@@ -512,10 +555,23 @@ export default {
                 fotointeriortrasero: null,
                 fototablero: null
             },
-            perfil: ''
+            perfil: '',
+            gastos: []
         }
     },
     methods: {
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();;
+            } else {
+                return true;
+            }
+        },
+        quitarGasto(index){
+            this.gastos.splice(index, 1);
+        },
         changeNextPage() {
             this.page++;
             this.isFirst = false;
@@ -523,12 +579,14 @@ export default {
                 this.informacionPage = true;
                 this.fotografiasPage = false;
                 this.marcarPage = false;
+                this.gananciasPage = false;
                 this.finPage = false;
             }else if(this.page == 2) {
                 if(this.kilometrajestate) {
                     this.informacionPage = false;
                     this.fotografiasPage = false;
                     this.marcarPage = true;
+                    this.gananciasPage = false;
                     this.finPage = false;
                 }else{
                     this.page--;
@@ -538,11 +596,19 @@ export default {
                     this.informacionPage = false;
                     this.fotografiasPage = false;
                     this.marcarPage = false;
-                    this.finPage = true;
-                    this.isLast = true;
+                    this.gananciasPage = true;
+                    this.finPage = false;
+                    this.isLast = false;
                 }else{
                     this.page--;
                 }
+            }else if(this.page == 4) {
+                this.informacionPage = false;
+                this.fotografiasPage = false;
+                this.marcarPage = false;
+                this.gananciasPage = false;
+                this.finPage = true;
+                this.isLast = true;
             }
         },
         changeBeforePage() {
@@ -555,12 +621,20 @@ export default {
             }else if(this.page == 1) {
                 this.informacionPage = true;
                 this.fotografiasPage = false;
+                this.gananciasPage = false;
                 this.marcarPage = false;
                 this.finPage = false;
             }else if(this.page == 2) {
                 this.informacionPage = false;
+                this.gananciasPage = false;
                 this.fotografiasPage = false;
                 this.marcarPage = true;
+                this.finPage = false;
+            }else if(this.page == 3) {
+                this.informacionPage = false;
+                this.fotografiasPage = false;
+                this.marcarPage = false;
+                this.gananciasPage = true;
                 this.finPage = false;
             }
         },
@@ -656,6 +730,7 @@ export default {
                 }
                 formData.append('checklist', JSON.stringify(Array.prototype.concat(this.items, this.items2)));
                 formData.append('data', JSON.stringify(this.data));
+                formData.append('gastos', JSON.stringify(this.gastos));
                 formData.append('idvehiculo', JSON.stringify(this.id));
                 axios.post(URL_API + 'revisiones/add' , 
                     formData,
@@ -666,12 +741,82 @@ export default {
                         }
                     }
                 ).then((response) => {
-                    console.log(response.data);
+                    if(response.data['status'] == 1) {
+                        this.clearData();
+                        this.modal = false;
+                        this.alerta = true;
+                        this.messageAlert = "Revision añadida correctamente";
+
+                    }else{
+                        this.alerta = true;
+                        this.messageAlert = "Ocurrio un error al añadir la revision";
+                    }
                     
                 }).catch(function (error) {
                     console.log(error);
                 });
             }
+        },
+        agregarGasto() {
+            this.gastos.push(
+                {
+                    concepto: this.concepto_gasto,
+                    cantidad: this.cantidad_gasto
+                }
+            );
+            this.concepto_gasto = '';
+            this.cantidad_gasto = '';
+            this.agregarInput = false;
+        },
+        clearData() {
+            this.data = {
+                kilometraje: '',
+                incentivos: '0',
+                ganancias_totales: '0',
+                efectivo: '0',
+                horas_conectado: '0',
+                depositos_bancarios: '0',
+                renta: '0',
+                pendientes: '0',
+                multas: '0',
+                choques: '0',
+                total: '0',
+                pendiente:'0',
+                revision_semana: ''
+            };
+            this.fotos = {
+                fotofrente: null,
+                fotomotor: null,
+                fotocostadoderecho: null,
+                fotocostadoizquierdo: null,
+                fototrasera: null,
+                fotocajuela: null,
+                fotointeriorfrente: null,
+                fotointeriortrasero: null,
+                fototablero: null
+            };
+            this.gastos = [];
+            var motor = document.getElementById('motor');
+            var frente = document.getElementById('frente');
+            var costadoderecho = document.getElementById('costadoderecho');
+            var costadoizquierdo = document.getElementById('costadoizquierdo');
+            var cajuela = document.getElementById('cajuela');
+            var interiorfrente = document.getElementById('interiorfrente');
+            var interiortrasero = document.getElementById('interiortrasero');
+            var trasera = document.getElementById('trasera');
+            var tablero = document.getElementById('tablero');
+            motor.src="https://via.placeholder.com/250";
+            frente.src="https://via.placeholder.com/250";
+            costadoderecho.src="https://via.placeholder.com/250";
+            costadoizquierdo.src="https://via.placeholder.com/250";
+            cajuela.src="https://via.placeholder.com/250";
+            interiorfrente.src="https://via.placeholder.com/250";
+            interiortrasero.src="https://via.placeholder.com/250";
+            trasera.src="https://via.placeholder.com/250";
+            tablero.src="https://via.placeholder.com/250";
+            this.isFirst = true;
+            this.isLast = false;
+            this.fotografiasPage = true;
         }
     },
     computed: {
@@ -711,6 +856,9 @@ export default {
         pendientestate() {
             return this.data.pendiente.length > 0;
         },
+        semanastate() {
+            return this.data.revision_semana.length > 0;
+        },
         checkliststate() {
             var allSelected = true;
             var data = Array.prototype.concat(this.items, this.items2);
@@ -720,6 +868,12 @@ export default {
                 }
             });
             return allSelected;
+        },
+        conceptostate(){
+            return this.concepto_gasto.length > 0;
+        },
+        cantidadstate() {
+            return this.cantidad_gasto.length > 0;
         }
 
     },

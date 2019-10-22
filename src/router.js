@@ -64,6 +64,11 @@ export default new Router({
           path: '/reportes',
           name: 'reportes',
           component: () => import(/* webpackChunkName: "demo" */ './views/Reportes.vue')
+        },
+        {
+          path: '/usuarios',
+          name: 'usuarios',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Usuarios.vue')
         }
       ]
     },

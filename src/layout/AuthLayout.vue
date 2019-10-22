@@ -5,7 +5,7 @@
                   containerClasses="px-4 container"
                   expand>
             <router-link slot="brand" style="color:#fff" class="navbar-brand" to="/">
-                Uber Chofer Manager
+                Uber Fleet Manager
             </router-link>
 
             <template v-slot="{closeMenu}">
@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-6 collapse-brand">
                             <router-link to="/">
-                                Uber Chofer Manager
+                                Uber Fleet Manager
                             </router-link>
                         </div>
                         <div class="col-6 collapse-close">

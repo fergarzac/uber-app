@@ -11,7 +11,7 @@
                   <img alt="Image placeholder" src="https://via.placeholder.com/150">
                 </span>
                         <div class="media-body ml-2 d-none d-lg-block">
-                            <span class="mb-0 text-sm  font-weight-bold">Alfonso Meza</span>
+                            <span class="mb-0 text-sm  font-weight-bold">{{nombre}}</span>
                         </div>
                     </div>
 
@@ -40,7 +40,8 @@
       return {
         activeNotifications: false,
         showMenu: false,
-        searchQuery: ''
+        searchQuery: '',
+        nombre: ''
       };
     },
     methods: {
@@ -53,6 +54,9 @@
       toggleMenu() {
         this.showMenu = !this.showMenu;
       }
+    },
+    beforeMount() {
+      this.nombre = this.$store.state.nombre;
     }
   };
 </script>
